@@ -10,6 +10,7 @@ namespace BookStore.Web.Controllers
     {
         public ActionResult Index()
         {
+            string s = "Hello World";
             return View();
         }
 
