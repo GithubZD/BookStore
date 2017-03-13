@@ -14,6 +14,7 @@ namespace BookStore.Web.Models
             Carts = new HashSet<Cart>();
             OrderDetails = new HashSet<OrderDetail>();
         }
+
         public int BookId { get; set; }
 
         public int CategroyId { get; set; }
@@ -30,7 +31,6 @@ namespace BookStore.Web.Models
         [StringLength(100)]
         public string ImageUrl { get; set; }
 
-        [Required]
         public string Details { get; set; }
 
         public virtual Author Author { get; set; }
