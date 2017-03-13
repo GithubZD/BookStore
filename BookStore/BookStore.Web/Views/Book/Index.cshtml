@@ -1,0 +1,27 @@
+﻿
+@using X.PagedList.Mvc
+@using X.PagedList
+@using BookStore.Web.Models
+@model IEnumerable<Book>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>BookList</h2>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-3 col-sm-4">
+            <p>
+                <img src="@item.ImageUrl" />
+            </p>
+            <p>@item.Title</p>
+        </div>
+    }
+
+</div>
+@Html.PagedListPager((IPagedList<Book>)Model, p => Url.Action("Index",
+new { pageNumber = p }))
