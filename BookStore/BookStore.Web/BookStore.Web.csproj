@@ -80,6 +80,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -201,15 +203,51 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\MyHandler.ashx.cs">
+      <DependentUpon>MyHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookStoreDB.cs" />
+    <Compile Include="Models\Cart.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\sysdiagram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BookImages\20.jpg" />
+    <Content Include="BookImages\41Zu6wuZ4VL._AA400_.jpg" />
+    <Content Include="BookImages\4c684501-3c37-4528-8fa3-ba735d6b96b751k3nCBfDWL._SL500_SR160,160_.jpg" />
+    <Content Include="BookImages\516W9PDv80L._AA160_.jpg" />
+    <Content Include="BookImages\51k3nCBfDWL._SL500_SR160,160_.jpg" />
+    <Content Include="BookImages\51OYLEjMGIL._AA400_.jpg" />
+    <Content Include="BookImages\51Pb1PYEuNL._SL500_SR160,160_.jpg" />
+    <Content Include="BookImages\51PLYzvpmHL._SL500_SR160,160_.jpg" />
+    <Content Include="BookImages\51SyKkbu7lL._AA400_.jpg" />
+    <Content Include="BookImages\51zrJW3sS5L._AA400_.jpg" />
+    <Content Include="BookImages\75896390-d1dd-4095-91cc-4891206e9c7251PLYzvpmHL._SL500_SR160,160_.jpg" />
+    <Content Include="BookImages\img1.jpg" />
+    <Content Include="BookImages\img10.png" />
+    <Content Include="BookImages\img11.jpg" />
+    <Content Include="BookImages\img12.jpg" />
+    <Content Include="BookImages\img13.png" />
+    <Content Include="BookImages\img2.jpg" />
+    <Content Include="BookImages\img3.jpg" />
+    <Content Include="BookImages\img4.jpg" />
+    <Content Include="BookImages\img5.jpg" />
+    <Content Include="BookImages\img6.jpg" />
+    <Content Include="BookImages\img7.jpg" />
+    <Content Include="BookImages\img8.jpg" />
+    <Content Include="BookImages\img9.jpg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\placeholder.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -219,6 +257,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Handlers\MyHandler.ashx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

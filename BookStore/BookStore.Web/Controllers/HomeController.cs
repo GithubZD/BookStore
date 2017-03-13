@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookStore.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,11 @@ namespace BookStore.Web.Controllers
 {
     public class HomeController : Controller
     {
+        BookStoreDB db = new BookStoreDB(); 
         public ActionResult Index()
         {
-            string s = "Hello World";
-            return View();
+            List<Book> list = db.Books.OrderByDescending(p =>p.BookId).Take(10).ToList();
+            return View(list);
         }
 
         public ActionResult About()
