@@ -240,3 +240,10 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror/LICENSE
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror/javascript.js
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.css
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/lib/codemirror
+/BookStore/BookStore.Web/ckeditor/samples/toolbarconfigurator/js/toolbartextmodifier.js

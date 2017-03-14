@@ -1,0 +1,74 @@
+﻿@model BookStore.Web.Models.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div style="margin-top:30px">
+    <div style="float:left;margin:10px">
+        <img src="@Model.ImageUrl" />
+    </div>
+    <div style="float:left;min-width:300px">
+        <h4>@Html.DisplayFor(model => model.Title)</h4>
+        <hr />
+        <div>价格：<span style="color:red">@Html.DisplayFor(model => model.Price)</span></div>
+        <div>数量：<input id="count" name="count" type="text" value="1" /></div>
+        <div><hr style="clear:none;border:none"/></div>
+        <div><button class="btn btn-primary">加入购物车</button></div>
+    </div>
+
+    <div style="clear:both">
+        <hr />
+    </div>
+    <div>
+        <h3>基本信息</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Author.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Author.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+        </dl>
+    </div>
+    <hr />
+    <div>
+        <h3>内容介绍</h3>
+        <p>@Html.Raw(Model.Details)</p>
+    </div>
+</div>
+
+@section Scripts{
+    <link href="~/Content/jquery.spinner.css" type="text/css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.spinner.js" type="text/javascript"></script>
+    <script>
+        $("#count").spinner();
+    </script>
+
+    }
+

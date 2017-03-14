@@ -13,13 +13,14 @@
 <div class="row">
     @foreach (var item in Model)
     {
-
+        <a href="~/Book/Details/@item.BookId">
         <div class="col-md-3 col-sm-4">
             <p>
                 <img src="@item.ImageUrl" />
             </p>
             <p>@item.Title</p>
         </div>
+        </a>
     }
 
 </div>

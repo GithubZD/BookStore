@@ -57,7 +57,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Details, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Details, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -76,4 +76,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script src="~/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script type="text/javascript">
+    CKEDITOR.replace("Details");
+</script>
 }
