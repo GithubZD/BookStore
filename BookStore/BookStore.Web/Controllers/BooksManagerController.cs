@@ -12,6 +12,7 @@ using X.PagedList;
 
 namespace BookStore.Web.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class BooksManagerController : Controller
     {
         private BookStoreDB db = new BookStoreDB();

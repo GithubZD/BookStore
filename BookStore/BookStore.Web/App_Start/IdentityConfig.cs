@@ -88,6 +88,23 @@ namespace BookStore.Web
         }
     }
 
+
+    public class ApplicationRoleManager : RoleManager<ApplicationRole>
+    {
+        public ApplicationRoleManager(IRoleStore<ApplicationRole,string> store)
+            : base(store)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            var manager = new ApplicationRoleManager(
+                new RoleStore<ApplicationRole>(
+                context.Get<ApplicationDbContext>()));
+            
+            return manager;
+        }
+    }
     // 配置要在此应用程序中使用的应用程序登录管理器。
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {

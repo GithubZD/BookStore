@@ -223,6 +223,7 @@
     <Compile Include="Controllers\BooksManagerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -589,6 +590,7 @@
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\BooksManager\Create.cshtml" />
     <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\ShopCart\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
