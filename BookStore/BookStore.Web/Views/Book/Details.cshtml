@@ -12,10 +12,15 @@
         <h4>@Html.DisplayFor(model => model.Title)</h4>
         <hr />
         <div>价格：<span style="color:red">@Html.DisplayFor(model => model.Price)</span></div>
-        <div>数量：<input id="count" name="count" type="text" value="1"/></div>
-        <div><hr style="clear:none;border:none"/></div>
-        <div><button class="btn btn-primary">加入购物车</button></div>
-    </div>
+        @using (Html.BeginForm("AddToCart", "ShopCart", FormMethod.Get))
+        {
+        <input name="bookID" type="hidden" value="@Model.BookId" />
+        <div>数量：<input id="count" name="count" type="text" value="1" /></div>
+        <div><hr style="clear:none;border:none" /></div>
+        <div><input type="submit" class="btn btn-primary"value="加入购物车" /></div>
+
+        }        
+        </div>
 
     <div style="clear:both">
         <hr />

@@ -11,14 +11,15 @@
 </p>
 <table class="table">
     <tr>
+        <th>Image</th>
         <th>
             @Html.DisplayNameFor(model => model.Book.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CartId)
+            @Html.DisplayNameFor(model => model.Count)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Count)
+            @Html.DisplayNameFor(model => model.Book.Price)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DeteCreated)
@@ -28,24 +29,43 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td><img src="@item.Book.ImageUrl"/></td>
         <td>
             @Html.DisplayFor(modelItem => item.Book.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CartId)
+            <input type="text" class="count" value="@item.Count" />
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Count)
+            @Html.DisplayFor(modelItem => item.Book.Price)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DeteCreated)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RecordId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RecordId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RecordId })
+            @Html.ActionLink("Delete", "Delete", new { id = item.RecordId })
         </td>
     </tr>
 }
-
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            总价格：
+        </td>
+        <td>
+           <span id=span_TotilPrice></span> @ViewBag.totle
+        </td>
+    </tr>
 </table>
+
+@section Scripts{
+    <link href="~/Content/jquery.spinner.css" type="text/css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.spinner.js" type="text/javascript"></script>
+    <script>
+        $(".count").spinner();
+    </script>
+
+}
