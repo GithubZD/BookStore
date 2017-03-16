@@ -18,16 +18,16 @@ namespace BookStore.Web.Controllers
            var list= db.Carts.Where(
                c => c.CartId == User.Identity.Name).OrderByDescending(
                c=>c.DeteCreated).ToList();
-            decimal totle=0;
+            decimal price=0;
             foreach (var item in list)
             {
-                totle += item.Book.Price * item.Count;
+                price += item.Book.Price * item.Count;
             }
-            ViewBag.totle = totle;
+            ViewBag.totalPrice = price;
             return View(list);
         }
 
-        public ActionResult AddToCart(int? bookID,int? count,string ReturnUrl)
+        public ActionResult AddToCart(int? bookID,int? count)
         {
             if (bookID == null||count==null)
             {
@@ -71,10 +71,84 @@ namespace BookStore.Web.Controllers
             }
 
 
-            ViewBag.TotilCount = count;
+            ViewBag.TotalCount = count;
             return PartialView("_ShopCartSummary");
         }
+        
+        //[HttpPost]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                var result = new { Status = 0 };
+                return Json(result);
+            }
+            var item = db.Carts.SingleOrDefault(c => c.BookId == id && c.CartId == User.Identity.Name);
+            if (item != null)
+            {
+                db.Carts.Remove(item);
+                db.SaveChanges();
 
+                var total = GetTotal();
+                var result = new {
+                    Status = 1,
+                    TotalPrice=total.Item1,
+                    TotalCount=total.Item2};
+                return Json(result);
+            }
+            else
+            {
+                var result = new { Status = 2};
+                return Json(result);
+            }
+
+        }
+
+        
+        public ActionResult UpdateCount(int? recordID,int? count)
+        {
+            if (recordID==null||count==null)
+            {
+                var result = new { Status = 0 };
+                return Json(result);
+            }
+            var cart = db.Carts.SingleOrDefault(c => c.RecordId == recordID && c.CartId==User.Identity.Name);
+            if (cart!=null)
+            {
+                cart.Count = (int)count;
+                db.SaveChanges();
+
+                var total = GetTotal();
+                var result = new
+                {
+                    Status = 1,
+                    TotalPrice = total.Item1,
+                    TotalCount = total.Item2
+                };
+                return Json(result);
+            }
+            else
+            {
+                var result = new { Status = 2 };
+                return Json(result);
+            }
+
+        }
+        public Tuple<decimal,int> GetTotal()
+        {
+
+            var list = db.Carts.Where(
+                c => c.CartId == User.Identity.Name).ToList();
+
+            decimal price = 0;
+            int count = 0;
+            foreach (var item in list)
+            {
+                price += item.Count * item.Book.Price;
+                count += item.Count;
+            }
+            return new Tuple<decimal, int>(price, count);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
