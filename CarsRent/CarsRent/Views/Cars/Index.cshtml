@@ -1,0 +1,176 @@
+﻿@model IEnumerable<CarsRent.Models.Car>
+@using X.PagedList.Mvc
+@using X.PagedList
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row" style="margin-top:20px;border:dotted 1px">
+    <table>
+        <tr>
+            <td valign="middle">
+                <label>品牌:</label>
+            </td>
+            <td>
+                <div id="brand">
+                    <ul class="nav nav-tabs brand">
+                        <li><a href="#" data-id="0">不限</a></li>
+                        @foreach (CarsRent.Models.Brand item in ViewBag.Brand)
+                        {
+                            <li><a data-id="@item.BrandId" href="#">@item.BrandName</a></li>
+                        }
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle">
+                <label>车型:</label>
+            </td>
+            <td>
+                <div id="category">
+                    <ul class="nav nav-tabs category">
+                        <li><a href="#" data-id="0">不限</a></li>
+                        @foreach (CarsRent.Models.Categroy item in ViewBag.Categroy)
+                        {
+                            <li><a href="#" data-id="@item.CategoryId">@item.CategoryName</a></li>
+                        }
+                    </ul>
+                </div>
+                
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle">
+                <label>车座:</label>
+            </td>
+            <td>
+                <div id="seatNum">
+                    <ul class="nav nav-tabs seatNum">
+                        <li><a href="#">不限</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">4-5</a></li>
+                        <li><a href="#">5-8</a></li>
+                        <li><a href="#">8-10</a></li>
+                        <li><a href="#">10以上</a></li>
+                    </ul>
+                </div>                
+            </td>
+        </tr>
+        <tr>
+            <td valign="middle">
+                <label>价格:</label>
+            </td>
+            <td>
+                <div id="money">
+                    <ul class="nav nav-tabs money">
+                        <li><a href="#">不限</a></li>
+                        <li><a href="#">80<i>以下</i></a></li>
+                        <li><a href="#">80-90<i>/天</i></a></li>
+                        <li><a href="#">90-100<i>/天</i></a></li>
+                        <li><a href="#">100-110<i>/天</i></a></li>
+                        <li><a href="#">110-120<i>/天</i></a></li>
+                        <li><a href="#">120<i>以上</i></a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="row" style="padding-top:30px">
+    <div class="table-responsive">
+        <h3 class="margin-bottom-15">汽车列表</h3>
+        <table class="table table-striped table-hover table-bordered" style="padding:10px">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CarName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RentPrice)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Number)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="record_@item.CarId">
+                    <td>
+                        <img src="@item.ImageUrl" alt="270*170" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeatNum.SeatNumber)<i>座</i>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentPrice)<i>/天</i>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NowNumber)
+                    </td>
+                    <td>
+                        @Html.ActionLink("租车", "EditOrder", "Cars", 
+                                new { id = item.CarId }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+            }
+                </tbody>
+            </table>
+                    
+    </div>
+    @Html.PagedListPager((IPagedList)Model, p => Url.Action("Index",new { page = p }))
+</div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <script type="text/javascript">
+
+            $("#brand").on("click", "a", function () {
+
+                var ss = $(this).text();
+                alert(ss)
+            })
+
+
+            $(document).ready(function () {
+                $('ul.category > li').click(function () {
+                    $('ul.category > li').removeClass('active');
+                    $(this).addClass('active');
+
+                });
+                $('ul.brand > li').click(function () {
+                    //e.preventDefault();
+                    $('ul.brand > li').removeClass('active');
+                    $(this).addClass('active');
+
+                });
+                $('ul.seatNum > li').click(function () {
+                    //e.preventDefault();
+                    $('ul.seatNum > li').removeClass('active');
+                    $(this).addClass('active');
+
+                });
+                $('ul.money > li').click(function () {
+                    //e.preventDefault();
+                    $('ul.money > li').removeClass('active');
+                    $(this).addClass('active');
+
+                });
+
+            });
+        </script>
+    }
+
+

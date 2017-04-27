@@ -28,6 +28,13 @@ namespace BookStore.Web.Controllers
             return View(list);
 
         }
+
+        public ActionResult SearchBook(string bookName)
+        {
+            var list = db.Books.Where(b => b.Title.Contains(bookName));
+
+            return View(list);
+        }
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,6 +50,11 @@ namespace BookStore.Web.Controllers
             {
                 return HttpNotFound();
             }
+        }
+
+        public ActionResult ss()
+        {
+            return View(db.Books.ToList());
         }
         protected override void Dispose(bool disposing)
         {

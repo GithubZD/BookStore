@@ -1,0 +1,135 @@
+﻿@model IEnumerable<CarsRent.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.LoginName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTime)
+                </th>
+                <th>
+                    <label>订单状态</label>
+                </th>
+                <th>
+                    <label>备注</label>
+                </th>
+                <th><label>详情</label></th>
+                <th>
+                    <label>车辆状态</label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LoginName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderTime)
+                    </td>
+                    @if (item.PayYesNo == 1)
+                {
+                        <td>
+                            <label style="color:blue">已付款</label>
+                        </td>
+                    }
+                    else if (item.PayYesNo == 2)
+                    {
+                        <td>
+                            <span style="color:red">客户已经取消订单</span>
+                        </td>
+                    }
+                    @if (item.Status == 0)
+                {
+                        <td>
+                            <label style="color:blue">未去车</label>
+                        </td>
+                    }
+                    else if (item.Status == 1)
+                    {
+                        <td>
+                            <label style="color:red">正在使用</label>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span>已经归还</span>
+                        </td>
+                    }
+                    <td>
+                        @Html.ActionLink("订单详情", "Details", new { id = item.OrderId })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remark)
+                    </td>
+                    <td>
+                        <a id="deletList" class="delete" data-id="@item.OrderId" data-toggle="tooltip" data-placement="top" title="删除订单">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+
+@section Scripts {
+<link rel="stylesheet" href="~/Content/MyStyle.css" />
+<link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
+<script src="~/Scripts/bootbox.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".delete").click(function () {
+                var recordID = $(this).attr("data-id");
+                bootbox.dialog({
+                    size: "small",
+                    onEscape: "true",
+                    message: "你确定要删除该订单吗?",
+                    title: "操作确认",
+                    buttons: {
+                        OK: {
+                            label: " 确定 ",
+                            className: "btn btn-myStyle",
+                            callback: function () {
+                                $.post("/RentOrders/Delete",
+                                { recordID: recordID },
+                                function (data) {
+                                    if (data.Status == 1) {
+                                        //window.location.reload();
+                                        $("#record_" + recordID).fadeOut();
+                                        alert("删除成功！");
+                                    }
+                                    else {
+                                        alert("操作发生异常,删除失败！");
+                                    }
+                                });
+                            }
+                        },
+                        Cancel: {
+                            label: " 取消 ",
+                            className: "btn btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    }

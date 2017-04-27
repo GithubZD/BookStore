@@ -1,4 +1,4 @@
-namespace BookStore.Web.Models
+﻿namespace BookStore.Web.Models
 {
     using System;
     using System.Collections.Generic;
@@ -13,14 +13,19 @@ namespace BookStore.Web.Models
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "用户名")]
         public string CartId { get; set; }
 
         public int BookId { get; set; }
 
+        [Display(Name = "数量")]
         public int Count { get; set; }
 
+        [Display(Name = "日期")]
         public DateTime DeteCreated { get; set; }
 
         public virtual Book Book { get; set; }
+
+        
     }
 }

@@ -1,0 +1,112 @@
+﻿@model CarsRent.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>订单信息</h2>
+
+<div style="margin-left:40px">
+    <table>
+        <tr>
+            <td>
+                <div style="float:left;margin:10px">
+                    <img src="@Model.Car.ImageUrl" alt="270*170"/>
+                </div>
+            </td>
+            
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3>基本信息</h3>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Car.CarName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Car.CarName)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.AwayTime)
+                        </dt>
+
+                        <dd>
+                            <p>@Model.AwayTime.ToShortDateString().ToString()</p>
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Days)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Days)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Deposit)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Deposit)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Number)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Number)
+                        </dd>
+
+                        @if (Model.Order.PayYesNo==1)
+                        {
+                            <dt>
+                            </dt>
+                            <dd>
+                                <span style="color:red">已付款</span>&nbsp;<p>@Html.ActionLink("返回", "Index", "RentOrders")</p>
+                            </dd>
+                        }
+                        else
+                        {
+                            <dt></dt>
+
+                            <dd>
+                                @Html.ActionLink("返回","Index","Home")&nbsp;
+                                @*@Html.ActionLink("立即付款", "PayOrder", "Invoices",new { orderID =Model.OrderId},new { @class= "btn btn-primary"})*@
+                                <a href="#" id="payOrder"  class="btn btn-primary" value="去付款" data-id="@Model.Order.OrderId"></a>
+                            </dd>
+                        }
+                    </dl>
+
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/bootbox.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#payOrder").click(function () {
+            var payYesNo = confirm("是否付款？");
+            if (payYesNo) {
+                var orderID = $(this).attr("data-id");
+                $.post("/RentOrders/PayOrder",
+                    { orderID: orderID },
+                    function (data) {
+                        if (data.Status == 1) {
+                            window.location.reload();
+                            alert("付款成功");
+                        }
+                        else {
+                            location.href = "/Home/ErrorMessage";
+                        }
+                    });
+            }
+
+        })
+    })
+</script>
+}

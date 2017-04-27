@@ -1,4 +1,4 @@
-namespace BookStore.Web.Models
+﻿namespace BookStore.Web.Models
 {
     using System;
     using System.Collections.Generic;
@@ -17,6 +17,7 @@ namespace BookStore.Web.Models
         public int AuthorId { get; set; }
 
         [StringLength(50)]
+        [Display(Name = "作者")]
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

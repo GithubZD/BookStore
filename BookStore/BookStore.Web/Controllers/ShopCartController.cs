@@ -18,12 +18,6 @@ namespace BookStore.Web.Controllers
            var list= db.Carts.Where(
                c => c.CartId == User.Identity.Name).OrderByDescending(
                c=>c.DeteCreated).ToList();
-            decimal price=0;
-            foreach (var item in list)
-            {
-                price += item.Book.Price * item.Count;
-            }
-            ViewBag.totalPrice = price;
             return View(list);
         }
 
@@ -75,24 +69,25 @@ namespace BookStore.Web.Controllers
             return PartialView("_ShopCartSummary");
         }
         
-        //[HttpPost]
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public ActionResult Delete(int? recordID,string ids)
         {
-            if (id == null)
+            if (recordID == null)
             {
                 var result = new { Status = 0 };
                 return Json(result);
             }
-            var item = db.Carts.SingleOrDefault(c => c.BookId == id && c.CartId == User.Identity.Name);
+            var item = db.Carts.SingleOrDefault(c => c.RecordId == recordID && c.CartId == User.Identity.Name);
             if (item != null)
             {
                 db.Carts.Remove(item);
                 db.SaveChanges();
 
                 var total = GetTotal();
+                decimal price = UpdatePrice(ids);
                 var result = new {
                     Status = 1,
-                    TotalPrice=total.Item1,
+                    TotalPrice=price,
                     TotalCount=total.Item2};
                 return Json(result);
             }
@@ -104,8 +99,23 @@ namespace BookStore.Web.Controllers
 
         }
 
-        
-        public ActionResult UpdateCount(int? recordID,int? count)
+        public ActionResult DeleteAll(string ids)
+        {
+            JsonResult json = new JsonResult();
+            json.Data = false;
+            ids = ids.Substring(0, ids.Length - 1);
+            string[] id = ids.Split(',');
+            for (int i = 0; i < id.Length; i++)
+            {
+                int recordId =int.Parse(id[i]);
+                var item = db.Carts.SingleOrDefault(c => c.RecordId == recordId);
+                db.Carts.Remove(item);
+                db.SaveChanges();
+                json.Data = true;
+            }
+            return Json(json.Data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult UpdateCount(int? recordID,int? count,string ids)
         {
             if (recordID==null||count==null)
             {
@@ -119,10 +129,11 @@ namespace BookStore.Web.Controllers
                 db.SaveChanges();
 
                 var total = GetTotal();
+                decimal price = UpdatePrice(ids);
                 var result = new
                 {
                     Status = 1,
-                    TotalPrice = total.Item1,
+                    TotalPrice = price,
                     TotalCount = total.Item2
                 };
                 return Json(result);
@@ -132,6 +143,54 @@ namespace BookStore.Web.Controllers
                 var result = new { Status = 2 };
                 return Json(result);
             }
+
+        }
+
+        public decimal UpdatePrice(string ids)
+        {
+
+            decimal price = 0;
+
+            if (ids.Length>0) {
+                JsonResult json = new JsonResult();
+                ids = ids.Substring(0, ids.Length - 1);
+                string[] id = ids.Split(',');
+
+                for (int i = 0; i < id.Length; i++)
+                {
+                    int recordId = int.Parse(id[i]);
+                    var item = db.Carts.SingleOrDefault(c => c.RecordId == recordId);
+                    if (item != null)
+                    {
+                        price += item.Book.Price * item.Count;
+                    }
+                }
+            }
+
+            return price;
+
+        }
+        public ActionResult UpdateTotalPrice(string ids)
+        {
+            decimal price = 0;
+
+            JsonResult json = new JsonResult();
+            ids = ids.Substring(0, ids.Length - 1);
+            string[] id = ids.Split(',');
+
+            for (int i = 0; i < id.Length; i++)
+            {
+                int recordId = int.Parse(id[i]);
+                var item = db.Carts.SingleOrDefault(c => c.RecordId == recordId);
+                if (item != null)
+                {
+                    price += item.Book.Price * item.Count;
+                }
+            }
+            var reslut = new { TotalPrice = price };
+            return Json(reslut);
+            
+
 
         }
         public Tuple<decimal,int> GetTotal()
@@ -157,5 +216,7 @@ namespace BookStore.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

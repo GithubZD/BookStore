@@ -1,0 +1,84 @@
+﻿@model CarsRent.Models.Car
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div style="margin-left:40px">
+    <div style="float:left;margin:10px">
+        <img src="@Model.ImageUrl" alt="270*170"/>
+    </div>
+    <div style="float:left;min-width:300px">
+        <h4>@Html.DisplayFor(model => model.CarName)</h4>
+        <hr />
+    </div>
+
+    <div style="clear:both">
+        <hr />
+    </div>
+    <div>
+        <h3>基本信息</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Brand.BrandName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Brand.BrandName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Categroy.CategoryName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Categroy.CategoryName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SeatNum.SeatNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PlateNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PlateNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RentPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RentPrice)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Number)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Number)
+            </dd>
+
+        </dl>
+    </div>
+    <hr />
+    <div>
+        <h3>内容介绍</h3>
+        <p>@Html.Raw(Model.Details)</p>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("编辑", "Edit", new { id = Model.CarId }) |
+    @Html.ActionLink("返回", "Index")
+</p>

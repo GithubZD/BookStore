@@ -1,4 +1,4 @@
-namespace BookStore.Web.Models
+﻿namespace BookStore.Web.Models
 {
     using System;
     using System.Collections.Generic;
@@ -12,10 +12,13 @@ namespace BookStore.Web.Models
 
         public int OrderId { get; set; }
 
+        [Display(Name = "图片")]
         public int BookId { get; set; }
 
+        [Display(Name = "数量")]
         public int Quantity { get; set; }
 
+        [Display(Name = "总价")]
         public decimal UnitPrice { get; set; }
 
         public virtual Book Book { get; set; }

@@ -1,4 +1,4 @@
-namespace BookStore.Web.Models
+﻿namespace BookStore.Web.Models
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,6 @@ namespace BookStore.Web.Models
             Carts = new HashSet<Cart>();
             OrderDetails = new HashSet<OrderDetail>();
         }
-
         public int BookId { get; set; }
 
         public int CategroyId { get; set; }
@@ -23,14 +22,17 @@ namespace BookStore.Web.Models
 
         [Required]
         [StringLength(160)]
+        [Display(Name = "书名")]
         public string Title { get; set; }
 
+        [Display(Name = "单价")]
         public decimal Price { get; set; }
 
-        [Required]
         [StringLength(100)]
+        [Display(Name = "图片")]
         public string ImageUrl { get; set; }
 
+        [Display(Name = "详细信息")]
         public string Details { get; set; }
 
         public virtual Author Author { get; set; }

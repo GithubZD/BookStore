@@ -12,10 +12,11 @@ namespace BookStore.Web.Controllers
         BookStoreDB db = new BookStoreDB();
         public ActionResult Index()
         {
-            List<Book> list = db.Books.OrderByDescending(p => p.BookId).Take(10).ToList();
+            List<Book> list = db.Books.OrderByDescending(p => p.BookId).Take(8).ToList();
 
             return View(list);
         }
+
 
         public ActionResult About()
         {

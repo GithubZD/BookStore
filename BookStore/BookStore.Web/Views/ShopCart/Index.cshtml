@@ -4,13 +4,11 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>购物车</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
+        <th></th>
         <th>Image</th>
         <th>
             @Html.DisplayNameFor(model => model.Book.Title)
@@ -27,8 +25,12 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
     <tr id="record_@item.RecordId">
+        <td><input class="check-box" type="checkbox"  name="selectFlag" value="@item.RecordId" /></td>
         <td><img src="@item.Book.ImageUrl"/></td>
         <td>
             @Html.DisplayFor(modelItem => item.Book.Title)
@@ -46,20 +48,25 @@
             <a href="#" class="delete" data-id="@item.RecordId">删除</a>
         </td>
     </tr>
+    }
 }
+else
+{
+    <tr><td colspan="11"> 暂无数据</td></tr>
+}
+    <tr><td><input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label></td></tr>
     <tr>
+        <td colspan="2"><button class="btn btn-default" id="deleteAll" onclick="OnDelete()">全部删除</button></td>
         <td></td>
         <td></td>
-        <td></td>
-        <td></td>
+
         <td>
             总价格：
         </td>
         <td>
-           <text id=TotilPrice>@ViewBag.totalPrice</text> 
-
+           <text id="TotilPrice">0</text> 
         </td>
-    </tr>
+        <td><a class="btn btn-primary"  id="addOrder" >提交订单</a></td>
 </table>
 <!-- 模态框（Modal） -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -69,48 +76,26 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">删除购物车商品</h4>
             </div>
-            <div class="modal-body">是否删除？<input class="delete_id"type="hidden"/></div>
+            <div class="modal-body">是否删除？<input id="delete_id"type="hidden"/></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="btnDelete">删除</button>
+                <button type="button" id="btnDelete" class="btn btn-primary" >删除</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
 
+
 @section Scripts{
     <link href="~/Content/jquery.spinner.css" type="text/css" rel="stylesheet" />
     <script src="~/Scripts/jquery.spinner.js" type="text/javascript"></script>
-    <script>
+    <script src="~/Scripts/dealCart.js" type="text/javascript"></script>
+    <script type="text/javascript">
         $(function () {
             $(".count").spinner();
-            $(".count").bind("update", function () {
-                var recordID = $(this).attr("data-id");
-                var count = $(this).val();
-                $.post("/ShopCart/UpdateCount",
-                    {recordID:recordID,count:count},
-                    function (data) {
-                        $("#TotilPrice").text(data.TotalPrice);
-                        $("#Total_count").text(data.TotalCount);
-                    })
-            });
-            $("#btnDelete").click(function () {
-                var recordID = $(this).attr("data-id");
-                    $.post("ShopCart/Delete", new { id: recordID },
-                        function (data) {
-                            if (data.Status == 1) {
-                                $("#myModal").modal("hide")
-                                $("#record_" + recordID).fadeOut();
-                                $("#TotilPrice").text(data.TotalPrice);
-                                $("#Total_count").text(data.TotalCount);
-                            }
-                        });
-            });
-            $(".delete").click(function () {
-                $("#myModal").modal();
-                $("#delete_id").val=($(this).attr("data-id"));
-            });
+            
         });
+
 
     </script>
 

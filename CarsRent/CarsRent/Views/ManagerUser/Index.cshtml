@@ -1,0 +1,80 @@
+﻿@model IEnumerable<CarsRent.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<div class="row">
+    <h3>用户列表</h3>
+    <div class="table-responsive margin-bottom-30">
+        <div class="panel panel-primary">
+            <div class="panel-heading">User Table</div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LoginName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RealName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CardNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Iphone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Age)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Sex)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LoginName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RealName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CardNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Iphone)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Age)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Sex)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
+                </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

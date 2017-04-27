@@ -4,14 +4,11 @@
 @using BookStore.Web.Models
 @model IEnumerable<Book>
 
-@{
-    ViewBag.Title = "Index";
-}
 
-<h2>Index</h2>
+<h2>书籍列表</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("添加新书", "Create")
 </p>
 <table class="table">
     <tr>
@@ -56,12 +53,11 @@
         </td>
 
         <td>
-            @Html.DisplayFor(modelItem => item.Details)
+            @Html.Raw(item.Details)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.BookId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookId })
+            @*@Html.ActionLink("编辑", "Edit", new { id=item.BookId }) |*@
+            @Html.ActionLink("删除", "Delete", new { id=item.BookId }, new { @class = "del" })
         </td>
     </tr>
 }
@@ -69,3 +65,15 @@
 </table>
 @Html.PagedListPager((IPagedList)Model, p => Url.Action("Index",
 new { page = p }))
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $(".del").click(function () {                
+                var isDel = confirm("是否要删除？");
+                return isDel;
+                
+            });
+        });
+    </script>
+}

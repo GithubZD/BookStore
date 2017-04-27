@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <link rel="stylesheet" href="~/Content/css/zerogrid.css">
+    <link rel="stylesheet" href="~/Content/css/style.css">
+    <link rel="stylesheet" href="~/Content/css/responsiveslides.css">
+
+    <script src="~/Scripts/jquery-latest.min.js"></script>
+    <script src="~/Scripts/script.js"></script>
+    <script src="~/Scripts/jquery183.min.js"></script>
+    <script src="~/Scripts/responsiveslides.min.js"></script>
+    <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+
+        <!--////////////////////////////////////Header-->
+        <header class="bg-theme">
+            <div class="wrap-header zerogrid">
+                <div class="row" style="float:left">
+                    <a href="~/Home/Index" class="logo"><img src="~/Images/images/logo.png" /></a>
+                    <div id="cssmenu" style="font-weight:bold;margin-left:20px">
+                        <ul>
+                            <li><a href="~/Home/Index"><h3>首页</h3></a></li>
+                            <li><a href="~/Cars/Index"><h3>车辆</h3></a></li>
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                            <li>
+                                <a href="~/RentOrders/Index" style="font-weight:bolder"><h3>我的订单</h3></a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("管理书籍", "Index", "ManagerCars")</li>
+                                <li>@Html.ActionLink("管理订单", "Index", "ManagerOrder")</li>}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </header>
+</div>
+    <div class="container body-content" style="margin-top:20px">
+        <div style="margin-top:20px"><br /></div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+        </footer>
+    </div>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>
+

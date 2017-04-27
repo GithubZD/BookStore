@@ -1,0 +1,89 @@
+﻿@model CarsRent.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("<返回", "Index") 
+</p>
+<div>
+    <table>
+        <tr>
+            <td>
+                <a href="~/Cars/Details/@Model.CarId"><img src="@Model.Car.ImageUrl" alt="270*170"/></a>
+                
+            </td>
+            <td>
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Order.LoginName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Order.LoginName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AwayTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AwayTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ReturnTime)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ReturnTime)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Days)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Days)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Deposit)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Deposit)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Money)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Money)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Number)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Number)
+                    </dd>
+
+                </dl>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Car.CarName)
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <hr />
+    
+</div>

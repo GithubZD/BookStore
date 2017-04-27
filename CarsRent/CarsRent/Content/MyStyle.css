@@ -1,0 +1,8 @@
+﻿body {
+}
+    .btn-myStyle {
+        background-color:lightskyblue;
+    }
+    .btn-myStyle:hover {
+            background-color:dodgerblue;
+    }

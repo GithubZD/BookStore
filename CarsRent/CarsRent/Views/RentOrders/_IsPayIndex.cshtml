@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CarsRent.Models.OrderDetail>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car.CarName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AwayTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Days)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Deposit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Money)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Order.PayYesNo)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr id="record_@item.OrderDetailsId">
+                <td colspan="8">
+                    <div></div>
+                    <p style="height:0px">@item.Order.OrderTime.ToShortDateString().ToString()</p>
+                </td>
+                <td>
+                    <a class="delete" data-id="@item.Order.OrderId" style="height:0px" data-toggle="tooltip" data-placement="top" title="删除订单">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+            <tr id="record_@item.OrderDetailsId">
+                <td>
+                    <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" /></a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Car.CarName)
+                </td>
+                <td>
+                    <p>@item.AwayTime.ToShortDateString().ToString()</p>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Days)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Deposit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    <label>已付款</label>
+                    <div><br /></div>
+                    <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>
+
+

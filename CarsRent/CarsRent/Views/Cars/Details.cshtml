@@ -1,0 +1,196 @@
+﻿@model CarsRent.Models.Car
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2><br /></h2>
+
+<div style="margin-left:40px">
+    <div style="float:left;margin:10px">
+        <img src="@Model.ImageUrl" alt="270*170"/>
+    </div>
+    <div style="float:left;min-width:300px">
+        <h4>@Html.DisplayFor(model => model.CarName)</h4>
+        <hr />
+        <div>价格：<span style="color:red">@Html.DisplayFor(model => model.RentPrice)/1天</span></div>
+        <div><hr style="clear:none;border:none" /></div>
+        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">
+            我要租车
+        </button>
+            <input id="carId" name="carID" type="hidden" value="@Model.CarId" />
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            编辑租赁信息
+                        </h4>
+                    </div>
+                    <div>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                <label>数量</label>
+                            </dt>
+                            <dd>
+                                <input id="count" name="count" type="text" value="1" />
+                            </dd>
+                            <dt></dt>
+                            <dd><br /></dd>
+                            <dt>
+                                <label>用车日期</label>
+                            </dt>
+
+                            <dd>
+                                <div class="iDate date">
+                                    <input type="text" id="orderDate">
+                                    <button type="button" class="addOn"></button>
+                                </div>
+                                <div style="clear:both">
+                                </div>
+                            </dd>
+                            <dt></dt>
+                            <dd><br /></dd>
+                            <dt>
+                                <label>用车天数</label>
+                            </dt>
+
+                            <dd>
+                                <input id="useDay" value="0" class = "form-control" style="width:50px"/>
+                            </dd>
+                        </dl>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    关闭
+                                </button>
+                                <button type="button" class="btn btn-primary" id="addOrder" onclick="addOrder()">
+                                    确认
+                                </button>
+                            </div>
+</div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+        <hr />
+    </div>
+    <div>
+        <h3>基本信息</h3>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Brand.BrandName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Brand.BrandName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Categroy.CategoryName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Categroy.CategoryName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SeatNum.SeatNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PlateNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PlateNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RentPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RentPrice)
+            </dd>
+        </dl>
+    </div>
+    <hr />
+    <div>
+        <h3>内容介绍</h3>
+        <p>@Html.Raw(Model.Details)</p>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("返回", "Index")
+</p>
+
+@section Scripts{
+<link rel="stylesheet" type="text/css" href="~/Content/styles.css" media="all">
+<script type="text/javascript" src="~/Scripts/moment.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<link href="~/Content/jquery.spinner.css" type="text/css" rel="stylesheet" />
+<script src="~/Scripts/jquery.spinner.js" type="text/javascript"></script>
+<link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet"  />
+<script>
+    $("#count").spinner();
+    $(document).ready(function () {
+        // date time picker
+        if ($(".iDate.date").length > 0) {
+            $(".iDate.date").datetimepicker({
+                locale: "zh-cn",
+                format: "YYYY-MM-DD",
+                dayViewHeaderFormat: "YYYY年 MMMM"
+            });
+        }
+
+    })
+
+    function addOrder() {
+        var carID = $("#carId").val();
+        var count = $("#count").val();
+        var date = $("#orderDate").val();
+        var useDay = $("#useDay").val();
+        var nowDate = new Date();
+        var year = nowDate.getFullYear();
+        var month = nowDate.getMonth() + 1;       //获取当前月份(0-11,0代表1月)
+        if (month < 10) {
+            month = '0' + month;
+        }
+        var day = nowDate.getDate();        //获取当前日(1-31)
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var fullDate = year + "-" + month + '-' + day;
+        if (fullDate <= date) {
+            if (useDay > 0) {
+                $.post("/RentOrders/AddOrder",
+                    { carID: carID, count: count, date: date, useDay: useDay },
+                function (data) {
+                    if (data.Status == 1) {
+                        var id = data.id;
+                        location.href = "/RentOrders/Details?id="+id;
+                    }
+                    else {
+                        location.href = "/Home/ErrorMessage";
+                    }
+                });
+            }
+            else{
+                alert("天数不能为0！");
+            }
+        }
+        else {
+            alert("不能选择比今天早的日期！");
+        }
+    }
+</script>
+
+}

@@ -1,0 +1,24 @@
+﻿@using X.PagedList.Mvc
+@using X.PagedList
+@using BookStore.Web.Models
+@model IEnumerable<Book>
+
+@{
+    ViewBag.Title = "SearchResult";
+}
+
+<h3>书单</h3>
+<div class="row" style="padding-top:30px;">
+    @foreach (var item in Model)
+    {
+        <a href="~/Book/Details/@item.BookId">
+            <div class="col-md-3 col-sm-4">
+                <p>
+                    <img src="@item.ImageUrl" />
+                </p>
+                <p>@item.Title</p>
+            </div>
+        </a>
+    }
+
+</div>

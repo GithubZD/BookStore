@@ -1,0 +1,268 @@
+﻿@model CarsRent.Models.User
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>用户信息</h2>
+
+<div>
+    <hr />
+    <table style="margin-left:100px">
+        <tr>
+            <td valign="top">
+                <div style="float:left;margin:10px">
+                    @if (Model.Icon == null)
+                    {
+                        <div> <img height="120" width="120" src="~/Images/IconImg/happy_face.png" id="UserIcon" /></div>
+                    }
+                    else
+                    {
+                        <div> <img height="120" width="120" src="@Model.Icon" id="UserIcon" /></div>
+                    }
+                </div>
+            </td>
+            <td valign="bottom">
+            <h4>@Html.DisplayFor(model => model.LoginName)</h4>
+                <h4>[@Html.ActionLink("完善资料", "EditUserInfo",new { id=Model.UserId})]
+                [@Html.ActionLink("修改密码", "ChangePassword", "Manage")]</h4>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal" style="margin: 10px;">
+                        修改头像
+                    </button>
+                    <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <!--<form class="avatar-form" action="upload-logo.php" enctype="multipart/form-data" method="post">-->
+                                <form class="avatar-form">
+                                    <div class="modal-header">
+                                        <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                        <h4 class="modal-title" id="avatar-modal-label">上传图片</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="avatar-body">
+                                            <div class="avatar-upload">
+                                                <input class="avatar-src" name="avatar_src" type="hidden">
+                                                <input class="avatar-data" name="avatar_data" type="hidden">
+                                                <label for="avatarInput" style="line-height: 35px;">图片上传</label>
+                                                <button class="btn btn-danger" type="button" style="height: 35px;" onclick="$('input[id=avatarInput]').click();">请选择图片</button>
+                                                <span id="avatar-name" data-id="@Model.UserId"></span>
+                                                <input class="avatar-input hide" id="avatarInput" name="avatar_file" type="file">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <div class="avatar-wrapper"></div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="avatar-preview preview-lg" id="imageHead"></div>
+                                                    <!--<div class="avatar-preview preview-md"></div>
+                                        <div class="avatar-preview preview-sm"></div>-->
+                                                </div>
+                                            </div>
+                                            <div class="row avatar-btns">
+                                                <div class="col-md-4">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-danger fa fa-undo" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"> 向左旋转</button>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <button class="btn  btn-danger fa fa-repeat" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"> 向右旋转</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5" style="text-align: right;">
+                                                    <button class="btn btn-danger fa fa-arrows" data-method="setDragMode" data-option="move" type="button" title="移动">
+                                                        <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;setDragMode&quot;, &quot;move&quot;)">
+                                                        </span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger fa fa-search-plus" data-method="zoom" data-option="0.1" title="放大图片">
+                                                        <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;zoom&quot;, 0.1)">
+                                                            <!--<span class="fa fa-search-plus"></span>-->
+                                                        </span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger fa fa-search-minus" data-method="zoom" data-option="-0.1" title="缩小图片">
+                                                        <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;zoom&quot;, -0.1)">
+                                                            <!--<span class="fa fa-search-minus"></span>-->
+                                                        </span>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger fa fa-refresh" data-method="reset" title="重置图片">
+                                                        <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;reset&quot;)" aria-describedby="tooltip866214"></span>
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-danger btn-block avatar-save fa fa-save" type="button" data-dismiss="modal"> 保存修改</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <h3>基本信息</h3>
+                    <dl class="dl-horizontal">
+                        @if (Model.RealName != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.RealName)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.RealName)
+                            </dd>
+                        }
+
+                        @if (Model.CardNumber != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.CardNumber)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.CardNumber)
+                            </dd>
+
+                        }
+                        @if (Model.Iphone != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Iphone)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Iphone)
+                            </dd>
+                        }
+                        @if (Model.Age != null)
+                        {
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Age)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Age)
+                            </dd>
+                        }
+                        @if (Model.Sex != null)
+                        {
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Sex)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Sex)
+                            </dd>
+                        }
+
+
+                        @if (Model.Address != null)
+                        {
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
+                        }
+
+
+
+                    </dl>
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style type="text/css">
+    .avatar-btns button {
+        height: 35px;
+    }
+</style>
+@section Scripts{
+<link href="~/Content/head/cropper.min.css" rel="stylesheet" />
+<link href="~/Content/head/sitelogo.css" rel="stylesheet" />
+<link href="~/Content/font-awesome.css" rel="stylesheet" />
+<script src="~/Scripts/head/cropper.js"></script>
+<script src="~/Scripts/head/sitelogo.js"></script>
+<script src="~/Scripts/head/html2canvas.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript">
+		//做个下简易的验证  大小 格式
+			$('#avatarInput').on('change', function(e) {
+				var filemaxsize = 1024 * 5;//5M
+				var target = $(e.target);
+				var Size = target[0].files[0].size / 1024;
+				if(Size > filemaxsize) {
+					alert('图片过大，请重新选择!');
+					$(".avatar-wrapper").childre().remove;
+					return false;
+				}
+				if(!this.files[0].type.match(/image.*/)) {
+					alert('请选择正确的图片!')
+				} else {
+					var filename = document.querySelector("#avatar-name");
+					var texts = document.querySelector("#avatarInput").value;
+					var teststr = texts; //你这里的路径写错了
+					testend = teststr.match(/[^\\]+\.[^\(]+/i); //直接完整文件名的
+					filename.innerHTML = testend;
+				}
+
+			});
+
+			$(".avatar-save").on("click", function() {
+			    var img_lg = document.getElementById('imageHead');
+				// 截图小的显示框内的内容
+				html2canvas(img_lg, {
+					allowTaint: true,
+					taintTest: false,
+					onrendered: function(canvas) {
+						canvas.id = "mycanvas";
+						//生成base64图片数据
+						var dataUrl = canvas.toDataURL("image/jpeg");
+						var newImg = document.createElement("img");
+						newImg.src = dataUrl;
+						imagesAjax(dataUrl)
+					}
+				});
+			})
+
+			function imagesAjax(src) {
+				var data = {};
+				data.img = src;
+				data.jid = $('#jid').val();
+				var fileName = $("#avatar-name").text();
+				var userId = $("#avatar-name").attr("data-id");
+				alert(fileName);
+				$.ajax({
+				    url: "~/User/AddIcon",
+				    data: { iconFile: fileName, UserID: userId },
+					type: "POST",
+					dataType: 'json',
+					success: function(re) {
+						if(re.status == 1) {
+						    $("#UserIcon").attr('src', src);
+						}
+						else{
+						    alert("数据发生异常，请重新操作！");
+						}
+					}
+				});
+			}
+</script>
+    }

@@ -58,16 +58,26 @@ namespace BookStore.Web.Controllers
         [HttpPost]
         [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookId,CategroyId,AuthorId,Title,Price,Details")] Book book,HttpPostedFileBase imageFile)
+        public ActionResult Create([Bind(Include = "BookId,CategroyId,AuthorId,Title,Price,Details")] Book book,
+            HttpPostedFileBase imageFile)
         {
+            //HttpPostedFileBase postFile = Request.Files["imageFile"];
             if (ModelState.IsValid)
             {
                 string imageName = Guid.NewGuid().ToString() + imageFile.FileName;
                 string pathName=Server.MapPath("~/BookImages/"+ imageName);
                 imageFile.SaveAs(pathName);
-                book.ImageUrl = "~/BookImages/" + imageName;
+                book.ImageUrl = "/BookImages/" + imageName;
                 db.Books.Add(book);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception e)
+                {
+
+                    return Content("错误是："+e);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -97,8 +107,9 @@ namespace BookStore.Web.Controllers
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,CategroyId,AuthorId,Title,Price,ImageUrl,Details")] Book book)
+        public ActionResult Edit([Bind(Include = "BookId,CategroyId,AuthorId,Title,Price,Details,ImageUrl")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -118,24 +129,30 @@ namespace BookStore.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            var book = db.Books.SingleOrDefault(b => b.BookId == id);
             if (book == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            else
+            {
+                db.Books.Remove(book);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
         }
 
         // POST: Books/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Book book = db.Books.Find(id);
+        //    db.Books.Remove(book);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
