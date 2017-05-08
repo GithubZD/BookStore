@@ -1,7 +1,7 @@
 ﻿@model CarsRent.Models.User
 
 
-@using (Html.BeginForm("EditUserInfo", "Manage", FormMethod.Post,
+@using (Html.BeginForm("EditUserInfo", "User", FormMethod.Post,
     new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -14,7 +14,7 @@
         @Html.HiddenFor(model => model.Password)
         @Html.HiddenFor(model => model.Icon)
         @Html.HiddenFor(model => model.LoginName)
-        @Html.HiddenFor(model => model.Role)
+        @Html.HiddenFor(model => model.RoleId)
         <div class="form-group">
             <em>*</em>
             @Html.LabelFor(model => model.RealName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -68,14 +68,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="保存" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回", "Index")
 </div>
 <style>
     em {

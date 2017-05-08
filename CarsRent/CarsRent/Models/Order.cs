@@ -24,16 +24,14 @@
         public DateTime? CancelTime { get; set; }
 
         [Required]
-        [StringLength(20)]
-        [Display(Name = "用户名")]
-        public string LoginName { get; set; }
+        public int UserId { get; set; }
 
         [Required]
-        [Display(Name = "状态")]
+        [Display(Name = "付款情况")]
         public int PayYesNo { get; set; }
 
         [Required]
-        [Display(Name = "状态")]
+        [Display(Name = "车辆状态")]
         public int Status { get; set; }
 
         [Required]
@@ -42,9 +40,14 @@
         [Required]
         public int AdminManager { get; set; }
 
+        [Display(Name = "订单操作")]
+        public int Evaluate { get; set; }
+
         [StringLength(400)]
         [Display(Name = "备注")]
         public string Remark { get; set; }
+
+        public virtual User User { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

@@ -17,6 +17,7 @@
         [Required]
         public int CarId { get; set; }
 
+        public int EvaluateId { get; set; }
         //[Required]
         //public int UserId { get; set; }
 
@@ -48,6 +49,8 @@
         public virtual Car Car { get; set; }
 
         public virtual Order Order { get; set; }
+
+        public virtual Evaluate Evaluate { get; set; }
 
         //public virtual User User { get; set; }
     }

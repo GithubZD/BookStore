@@ -3,6 +3,7 @@
 <table class="table table-bordered">
     <thead>
         <tr>
+            <th></th>
             <th>
             </th>
             <th>
@@ -26,12 +27,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-            {
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
             <tr id="record_@item.OrderDetailsId">
-                <td colspan="8">
-                    <div></div>
-                    <p style="height:0px">@item.Order.OrderTime.ToShortDateString().ToString()</p>
+                <td></td>
+                <td colspan="8" valign="bottom">
+                    <span>@item.Order.OrderTime.ToShortDateString().ToString()</span>
                 </td>
                 <td>
                     <a class="delete" data-id="@item.Order.OrderId" style="height:0px" data-toggle="tooltip" data-placement="top" title="删除订单">
@@ -40,6 +43,9 @@
                 </td>
             </tr>
             <tr id="record_@item.OrderDetailsId">
+                <td>
+                    <input class="check-box" type="checkbox" name="selectFlag" value="@item.OrderDetailsId" />
+                </td>
                 <td>
                     <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" /></a>
                 </td>
@@ -64,7 +70,19 @@
             </tr>
 
         }
-
+        }
+        else
+        {
+        <tr><td colspan="9"> <h3>暂无数据</h3></td></tr>
+        }
+        <tr>
+            <td valign="middle">
+                <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label>
+            </td>
+            <td valign="middle" style="text-align:left " colspan="9">
+                <button class="btn btn-default" id="deleteAll">全部删除</button>
+            </td>
+        </tr>
     </tbody>
 </table>
 

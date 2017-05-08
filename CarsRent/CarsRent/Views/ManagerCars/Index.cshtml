@@ -6,107 +6,123 @@
     ViewBag.Title = "Index";
 }
 
-<div>
-    <h4>
-        @Html.ActionLink("添加新车", "Create", "ManagerCars")
-    </h4>
-
+<div class="wrap-body" style="margin-top:5px">
+    <div class="row bg-theme" style="border:solid 1px #ddd;padding:10px;background:#bcd5ea">
+            <div class="filter nav_seach">
+                <div class="col-sm-1 col-md-2">
+                    <div class="wrap-col">
+                        <span>车的品牌 :</span><br />
+                        <select id="Brand_list">
+                            <option>--ALL--</option>
+                            @foreach (CarsRent.Models.Brand item in ViewBag.Brand)
+                            {
+                                <option data-id="@item.BrandId">@item.BrandName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2">
+                    <div class="wrap-col">
+                        <span>车型 :</span><br />
+                        <select id="Category_list">
+                            <option>--ALL--</option>
+                            @foreach (CarsRent.Models.Categroy item in ViewBag.Category)
+                            {
+                                <option data-id="@item.CategoryId">@item.CategoryName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-2">
+                    <div class="wrap-col">
+                        <br>
+                        <a id="btn-check" class="button bt1">Search</a>
+                    </div>
+                </div>
+            </div>
+        <div style="float:right;">
+            <ul class="list-group">
+                <li>
+                    <form class="navbar-form navbar-left" role="search">
+                        <a class="btn btn-default">添加新车</a>
+                        <a class="btn btn-default">添加品牌</a>
+                        <a class="btn btn-default">添加车型</a>
+                    </form>
+                </li>
+                <li>
+                    <form class="navbar-form navbar-left" role="search" style="float:right">
+                        <div class="form-group">
+                            <input type="text" id="car-name" class="form-control" placeholder="请在此处输入车名">
+                        </div>
+                        <a id="btn-search" class="btn btn-default" ><span class="glyphicon glyphicon-search"></span></a>
+                    </form>
+                </li>
+            </ul>
+ 
+        </div>
+    </div>
 </div>
-<div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CarName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlateNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RentPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Number)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr id="record_@item.CarId">
-                    <td>
-                        <img src="@item.ImageUrl" alt="270*170" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CarName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PlateNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RentPrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Number)
-                    </td>
-                    <td>
-                        @Html.ActionLink("编辑", "Edit", new { id = item.CarId }) |
-                        @Html.ActionLink("详细资料", "Details", new { id = item.CarId }) |
-                        <a class="delete" data-id="@item.CarId">删除</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-
-
-    </table>
+<div class="row" style="border:solid 1px #ddd" id="div_carList">
+    @{Html.RenderAction("ListCar", "ManagerCars");}
 </div>
-@Html.PagedListPager((IPagedList)Model, p => Url.Action("Index", new { page = p }))
 
 
+<style>
+    .nav_seach{
+        color:black;
+        padding:0px;
+        font-size:20px
+    }
+    thead{
+        font-size:20px;
+    }
+</style>
 @section Scripts {
     <link rel="stylesheet" href="~/Content/MyStyle.css" />
     <script src="~/Scripts/bootbox.js" type="text/javascript"></script>
     <script type="text/javascript">
-        $(function () {
-            $(".delete").click(function () {
-                var recordID = $(this).attr("data-id");
-                    bootbox.dialog({
-                        size: "small",
-                        onEscape: "true",
-                        message: "你确定要删除吗?",
-                        title: "操作确认",
-                        buttons: {
-                            OK: {
-                                label: " 确定 ",
-                                className: "red-haze fa fa-check btn-myStyle ",
-                                callback: function () {
-                                    $.post("/ManagerCars/Delete",
-                                    { recordID: recordID },
-                                    function (data) {
-                                        if (data.Status==1) {
-                                            $("#record_" + recordID).fadeOut();
-                                            alert("删除成功！");
-                                        }
-                                        else {
-                                            alert("操作发生异常,删除失败！");
-                                        }
-                                    });
-                                }
-                            },
-                            Cancel: {
-                                label: " 取消 ",
-                                className: "green-jungle fa fa-times btn btn-default",
-                                callback: function () {
-                                }
-                            }
+        $(document).ready(function () {
+            $("#btn-search").click(function () {
+                 var CarName = $("#car-name").val();
+                if (CarName =="") {
+                    alert("查找内容不能为空！");
+                }
+                else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/ManagerCars/ListCar",
+                        data: { carName: CarName },
+                        datatype: "json",
+                        success: function (date) {
+                            $("#div_carList").html(date);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(errorThrown);
                         }
-                    });
-            });
-        });
+                    })
+                }
+
+            })
+            $("#btn-check").click(function () {
+                var brandId = $("#Brand_list").find("option:selected").attr("data-id");
+                var categoryId = $("#Category_list").find("option:selected").attr("data-id");
+                $.ajax({
+                    type: "POST",
+                    url: "/ManagerCars/ListCarCheck",
+                    data: { BrandID: brandId, CategroyID: categoryId },
+                    datatype: "json",
+                    success: function (date) {
+                        $("#div_carList").html(date);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    }
+                })
+            })
+        })
+        //$(document).on("click", "#btn-check", function () {
+        //    var brandId = $("#Brand_list").find("option:selected").text();
+        //    alert(brandId);
+        //})
     </script>
 }

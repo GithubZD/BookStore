@@ -12,6 +12,8 @@ using System.Net;
 using System.Data.Entity;
 using CarsRent.Common;
 using System.Windows.Forms;
+using System.IO;
+using System.Text;
 
 namespace CarsRent.Controllers
 {
@@ -104,9 +106,9 @@ namespace CarsRent.Controllers
             return View();
         }
 
-        public ActionResult AddIcon(HttpPostedFileBase iconFile,int? UserID)
+        public ActionResult AddIcon(int? UserID, string iconString)
         {
-            if (iconFile == null|| UserID==null)
+            if (iconString == null|| UserID==null)
             {
                 var result = new
                 {
@@ -116,10 +118,17 @@ namespace CarsRent.Controllers
             }
             else
             {
-                var user = db.Users.Find(UserID); 
-                string imageName = Guid.NewGuid().ToString() + iconFile.FileName;
-                string pathName = Server.MapPath("~/Images/IconImg/" + imageName);
-                iconFile.SaveAs(pathName);
+                var user = db.Users.Find(UserID);
+                string dummyData = iconString.Trim().Replace("data:image/jpeg;base64,", "");
+                string imageName = Guid.NewGuid().ToString()+ ".jpg";
+                string pathName = Server.MapPath("~/Images/IconImg/");
+                //byte[] arr2 = Encoding.UTF8.GetBytes(iconString);
+                byte[] arr2 = Convert.FromBase64String(dummyData);
+                using (MemoryStream ms2 = new MemoryStream(arr2))
+                {
+                    System.Drawing.Bitmap bmp2 = new System.Drawing.Bitmap(ms2);
+                    bmp2.Save(pathName + imageName, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
                 user.Icon = "/Images/IconImg/" + imageName;
                 db.SaveChanges();
                 var result = new
@@ -386,10 +395,10 @@ namespace CarsRent.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing && db != null)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                db.Dispose();
+                db = null;
             }
 
             base.Dispose(disposing);

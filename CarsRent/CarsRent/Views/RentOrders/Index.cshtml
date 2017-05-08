@@ -5,7 +5,7 @@
 
 }
 <div class="body-content" style="margin-top:20px">
-    <div class="header-a">
+    <div class="header-a" style="margin-left:-20px">
         <header>
             <ul class="nav nav-pills" style="background-color:lightgrey">
                 <li class="active" id="nav_name">@Ajax.ActionLink("全部订单", "AllOrder", new AjaxOptions
@@ -20,19 +20,31 @@
                             HttpMethod = "GET",
                             InsertionMode = InsertionMode.Replace
                         })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("已付款", "IsPayIndex", new AjaxOptions
+                <li id="nav_name">@Ajax.ActionLink("待处理", "IsPayIndex", new AjaxOptions
                        {
                            UpdateTargetId = "orderList",
                            HttpMethod = "GET",
                            InsertionMode = InsertionMode.Replace
                        })</li>&nbsp;
+                <li id="nav_name">@Ajax.ActionLink("正在使用", "DealIndex", new AjaxOptions
+                                             {
+                                                 UpdateTargetId = "orderList",
+                                                 HttpMethod = "GET",
+                                                 InsertionMode = InsertionMode.Replace
+                                             })</li>&nbsp;
+                <li id="nav_name">@Ajax.ActionLink("已完成", "Complete", new AjaxOptions
+                                             {
+                                                 UpdateTargetId = "orderList",
+                                                 HttpMethod = "GET",
+                                                 InsertionMode = InsertionMode.Replace
+                                             })</li>&nbsp;
                 <li id="nav_name">@Ajax.ActionLink("已取消", "IsCancleIndex", new AjaxOptions
                         {
                             UpdateTargetId = "orderList",
                             HttpMethod = "GET",
                             InsertionMode = InsertionMode.Replace
                         })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("待评价", "AllOrder", new AjaxOptions
+                <li id="nav_name">@Ajax.ActionLink("待评价", "NoEvaluate", new AjaxOptions
                        {
                            UpdateTargetId = "orderList",
                            HttpMethod = "GET",
@@ -49,6 +61,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>
+                    </th>
                     <th>
                     </th>
                     <th>
@@ -72,15 +86,20 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Order.PayYesNo)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Order.Status)
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
-            {
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
                     <tr id="record_@item.OrderDetailsId">
-                        <td colspan="8">
-                            <div></div>
-                            <p style="height:0px">@item.Order.OrderTime.ToShortDateString().ToString()</p>
+                        <td></td>
+                        <td colspan="9" valign="bottom">
+                            <span>@item.Order.OrderTime.ToShortDateString().ToString()</span>
                         </td>
                         <td>
                             <a class="delete" data-id="@item.Order.OrderId" style="height:0px" data-toggle="tooltip" data-placement="top" title="删除订单">
@@ -89,6 +108,9 @@
                         </td>
                     </tr>
                     <tr id="record_@item.OrderDetailsId">
+                        <td>
+                            <input class="check-box" type="checkbox" name="selectFlag" value="@item.OrderDetailsId" />
+                        </td>
                         <td>
                             <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" /></a>
                         </td>
@@ -121,7 +143,10 @@
                             <td>
                                 <label>已付款</label>
                                 <div><br /></div>
-                                <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
+                                @if (item.Order.Status == 0)
+                                {
+                                    <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
+                                }
                             </td>
                         }
                         else
@@ -130,16 +155,44 @@
                                 <span style="color:red">订单已经取消</span>
                             </td>
                         }
+                        @if (item.Order.Status == 0)
+                        {
+                            <td>
+                                <span>未取车</span>
+                            </td>
+                        }
+                        else if (item.Order.Status == 1)
+                        {
+                            <td>
+                                <span>正在使用</span>
+                            </td>
+                        }
+                        else if (item.Order.Status == 2)
+                        {
+                            <td>
+                                <span>已还车</span>
+                            </td>
+                        }
                     </tr>
 
-                }
-
+    }
+}
+else
+{
+    <tr><td colspan="10"> <h3>暂无数据</h3></td></tr>
+}
+                <tr>
+                    <td valign="middle">
+                        <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label>
+                    </td>
+                    <td valign="middle" style="text-align:left " colspan="9">
+                        <button class="btn btn-default" id="deleteAll">全部删除</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
-        @*@Html.Partial("_OrderList")*@
     </div>
 </div>
-
 
 
 @section Scripts {
@@ -175,7 +228,6 @@
         });
 
     });
-
 
 
 </script>

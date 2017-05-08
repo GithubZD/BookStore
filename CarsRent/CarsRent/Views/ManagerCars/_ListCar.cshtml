@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CarsRent.Models.Car>
+@using X.PagedList.Mvc
+@using X.PagedList
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+    <div class="panel panel-default" style="border:solid 1px #ddd;margin-top:5px">
+        <div class="panel-heading">
+            <h4>汽车列表</h4>
+        </div>
+        <!-- /.panel-heading -->
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CarName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PlateNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RentPrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Number)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+            {
+                        <tr id="record_@item.CarId">
+                            <td>
+                                <img src="@item.ImageUrl" alt="270*170" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CarName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PlateNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RentPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Number)
+                            </td>
+                            <td>
+                                @Html.ActionLink("编辑", "Edit", new { id = item.CarId }) |
+                                @Html.ActionLink("详细资料", "Details", new { id = item.CarId })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+
+            </table>
+            @Html.PagedListPager((IPagedList)Model, p => Url.Action("Index", new { page = p }))
+        </div>
+    </div>
+

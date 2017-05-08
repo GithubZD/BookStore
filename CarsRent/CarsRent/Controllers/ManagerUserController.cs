@@ -17,10 +17,23 @@ namespace CarsRent.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            var userList = db.Users.Where(u => u.Role != "Admin").ToList();
-            return View(userList);
+            
+            return View();
         }
 
+        public ActionResult UserList( string UserInfo)
+        {
+            if (UserInfo == null)
+            {
+                var userList = db.Users.Where(u => u.RoleId==2).ToList();
+                return PartialView("_UserList", userList);
+            }
+            else
+            {
+                var userList = db.Users.Where(u => u.RoleId == 2 && u.RealName==UserInfo||u.Iphone==UserInfo).ToList();
+                return PartialView("_UserList", userList);
+            }
+        }
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {

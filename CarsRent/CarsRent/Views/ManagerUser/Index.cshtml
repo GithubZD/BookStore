@@ -6,75 +6,54 @@
 
 
 
-<div class="row">
-    <h3>用户列表</h3>
+<div class="row" style="margin-top:10px">
     <div class="table-responsive margin-bottom-30">
-        <div class="panel panel-primary">
-            <div class="panel-heading">User Table</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>User Table</h4>
+            </div>
             <div class="panel-body">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.LoginName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.RealName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CardNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Iphone)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Age)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Sex)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Address)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.LoginName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.RealName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CardNumber)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Iphone)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Age)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Sex)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </td>
-                                @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id=item.UserId }) |
-                    @Html.ActionLink("Details", "Details", new { id=item.UserId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id=item.UserId })
-                </td>*@
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+
+                <div style="float:right;background:#f6f6f6" >
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <span class="navbar-brand" href="#">用户查找:</span>
+                        </div>
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input type="text" id="user_info" class="form-control" placeholder="姓名或电话">
+                            </div>
+                            <a id="btn-search" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
+                        </form>
+                        </div>
+                    </div>
+                <div id="user_list">
+                    @{Html.RenderAction("UserList", "ManagerUser");}                   
+                </div>
+
             </div>
         </div>
     </div>
 </div>
-
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn-search").click(function () {
+                var userInfo = $("#user_info").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/ManagerUser/UserList",
+                        data: { UserInfo: userInfo },
+                        datatype: "json",
+                        success: function (date) {
+                            $("#user_list").html(date);
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(errorThrown);
+                        }
+                    })
+            })
+        })
+    </script>
+ }
 

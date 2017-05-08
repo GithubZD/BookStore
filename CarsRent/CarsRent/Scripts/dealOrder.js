@@ -18,6 +18,9 @@ $(document).delegate("#payOrder", "click", function () {
                         window.location.reload();
                         alert("付款成功");
                     }
+                    else if (data.Status == 2) {
+                        alert("Sorry!你选择的车辆数量不够，请重新选择其他车辆！");
+                    }
                     else {
                         location.href = "/Home/ErrorMessage";
                     }
@@ -103,4 +106,48 @@ $(document).on("click", ".cancel", function () {
         },
 
     });
+})
+
+$(document).on("click", "#deleteAll", function () {
+    var ids = "";
+    $("input:checked[name='selectFlag']").each(function () {
+        ids = ids + $(this).val() + ",";
+    });
+    if (ids.length > 0) {
+        if (confirm("确定删除吗？")) {
+
+            var url = "/RentOrders/DeleteAll?ids=" + ids;
+
+            $.getJSON(url, function (data) {
+                if (data) {
+                    window.location.reload();
+                    alert("删除成功！");
+                }
+                else {
+                    alert("操作发生异常,删除失败！");
+                }
+            });
+        }
+    } else {
+
+        alert("请选择数据！");
+    }
+
+})
+
+$(document).on("click", "#checkAll", function () {
+    //debugger;
+    if (this.checked) {
+        //$("input:checkbox").css("background-color","red");
+        var ischecked = this.checked;
+        $("input:checkbox[name='selectFlag']").each(function () {
+            this.checked = ischecked;
+
+        });
+    }
+    else if (!this.checked) {
+        $("input[name='selectFlag']:checkbox").each(function () { //遍历所有的name为selectFlag的 checkbox  
+            $(this).attr("checked", false);
+        });
+    }
 })

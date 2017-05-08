@@ -3,7 +3,8 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th></th>
+            <th>
+            </th>
             <th>
             </th>
             <th>
@@ -25,10 +26,10 @@
                 @Html.DisplayNameFor(model => model.Number)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order.PayYesNo)
+                @Html.DisplayNameFor(model => model.Order.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order.Status)
+                @Html.DisplayNameFor(model => model.Order.Evaluate)
             </th>
         </tr>
     </thead>
@@ -74,30 +75,38 @@
                     @Html.DisplayFor(modelItem => item.Number)
                 </td>
                 <td>
-                    <label>已付款</label>
-                    <div><br /></div>
-                    <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
+                    <label>已归还</label>
                 </td>
-                <td>
-                    <label>未取车</label>
-                </td>
+                @if (item.Order.Evaluate == 0)
+                    {
+                    <td>
+                        <a>追加评价</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a>查看评价</a>
+                    </td>
+                }
             </tr>
 
-    }
-}
-else
-{
-    <tr><td colspan="10"> <h3>暂无数据</h3></td></tr>
-}
-<tr>
-    <td valign="middle">
-        <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label>
-    </td>
-    <td valign="middle" style="text-align:left " colspan="9">
-        <button class="btn btn-default" id="deleteAll">全部删除</button>
-    </td>
-</tr>
+        }
+        }
+        else
+        {
+        <tr><td colspan="9"><h3>暂无数据</h3></td></tr>
+        }
+        <tr>
+            <td valign="middle">
+                <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label>
+            </td>
+            <td valign="middle" style="text-align:left " colspan="8">
+                <button class="btn btn-default" id="deleteAll">全部删除</button>
+            </td>
+        </tr>
     </tbody>
 </table>
+
 
 

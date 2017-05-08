@@ -18,7 +18,7 @@
 
 
         <div class="form-group">
-            <img src="~/Images/images/photo_icon.png"id="pic"/>
+            <img src="~/Images/images/photo_icon.png" id="pic"/>
             <div class="col-md-10">
                 <input name="imageFile" type="file" class="form-control" id="upload"/>
             </div>
@@ -109,7 +109,7 @@
             $("#pic").click(function () {
                 $("#upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传
                 $("#upload").on("change", function () {
-                    var objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
+                    var objUrl = getObjectURL(this.files[0]); 
                     if (objUrl) {
                         $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
                     }

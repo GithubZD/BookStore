@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CarsRent.Models;
+using System.Windows.Forms;
 
 namespace CarsRent.Controllers
 {
@@ -18,7 +19,7 @@ namespace CarsRent.Controllers
         public ActionResult Index()
         {
             var rentOrders = db.OrderDetails.Where(
-                o=>o.Order.LoginName==User.Identity.Name&&o.Order.UserManager!=0).
+                o=>o.Order.User.LoginName==User.Identity.Name&&o.Order.UserManager==1).
                 OrderByDescending(o=>o.Order.OrderTime).ToList();
 
             return View(rentOrders);
@@ -42,50 +43,62 @@ namespace CarsRent.Controllers
 
         public ActionResult AddOrder(int? carID, int? count, DateTime? date, int? useDay)
         {
-            
+
             if (carID == null)
             {
-                var result = new {Status = 0};
+                var result = new { Status = 0 };
                 return Json(result);
             }
 
             var car = db.Cars.Find(carID);
+            var user = db.Users.SingleOrDefault(u=>u.LoginName==User.Identity.Name);
             if (car != null)
             {
                 var newOrder = new Order
                 {
-                    LoginName = User.Identity.Name,
+                    UserId=user.UserId,
                     OrderTime = DateTime.Now,
                     PayYesNo = 0,
                     Status = 0,
                     UserManager = 1,
-                    AdminManager=1
+                    AdminManager = 1
                 };
-                 db.Orders.Add(newOrder);
+                db.Orders.Add(newOrder);
+                int num = (int)count;
+                if (car.NowNumber >= num)
+                {
+                    car.NowNumber = car.NowNumber - num;
+                    var orderDetails = new OrderDetail
+                    {
+                        CarId = (int)carID,
+                        OrderId = newOrder.OrderId,
+                        AwayTime = (DateTime)date,
+                        Days = useDay,
+                        Deposit = useDay * num * car.RentPrice * (decimal)1.2,
+                        Money = useDay * num * car.RentPrice,
+                        Number = num,
+                    };
+                    db.OrderDetails.Add(orderDetails);
+                    db.SaveChanges();
 
-                var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
-                var orderDetails = new OrderDetail {
-                    CarId = (int)carID,
-                    OrderId = newOrder.OrderId,
-                    AwayTime =(DateTime)date,
-                    Days = useDay,
-                    Deposit = useDay*count * car.RentPrice*(decimal)1.2,
-                    Money = useDay*count * car.RentPrice,
-                    Number =(int)count,
-                };
-                db.OrderDetails.Add(orderDetails);
-                db.SaveChanges();
+                    int id = orderDetails.OrderDetailsId;
+                    var result = new { Status = 1, id = id };
+                    return Json(result);
+                }
 
-                int id = orderDetails.OrderDetailsId;
-                var result = new { Status = 1, id=id };
+                else
+                {
+                    var result = new { Status = 2};
+                    return Json(result);
+                }
+            }
+            else
+            {
+                var result = new { Status = 0};
                 return Json(result);
             }
-            else {
-                var result = new { Status = 2 };
-                return Json(result);
-            }
 
-            
+
         }
 
         public ActionResult CancelOrder(int? recordID)
@@ -146,7 +159,7 @@ namespace CarsRent.Controllers
         public ActionResult AllOrder()
         {
             var rentOrders = db.OrderDetails.Where(
-                o => o.Order.LoginName == User.Identity.Name && o.Order.UserManager != 0).
+                o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1).
                 OrderByDescending(o => o.Order.OrderTime).ToList();
 
             return PartialView("_OrderList", rentOrders);
@@ -154,7 +167,7 @@ namespace CarsRent.Controllers
         public ActionResult IsPayIndex()
         {
             var rentOrders = db.OrderDetails.Where(
-                o => o.Order.LoginName == User.Identity.Name && o.Order.UserManager != 0 && o.Order.PayYesNo !=0).
+                o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo !=0&&o.Order.Status==0).
                 OrderByDescending(o => o.Order.OrderTime).ToList();
 
             return PartialView("_IsPayIndex", rentOrders);
@@ -162,18 +175,42 @@ namespace CarsRent.Controllers
         public ActionResult NoPayIndex()
         {
             var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.LoginName == User.Identity.Name && o.Order.UserManager != 0 && o.Order.PayYesNo == 0).
+                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo == 0).
                  OrderByDescending(o => o.Order.OrderTime).ToList();
 
             return PartialView("_NoPayIndex", rentOrders);
         }
+        public ActionResult DealIndex()
+        {
+            var rentOrders = db.OrderDetails.Where(
+                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.Status == 1).
+                 OrderBy(o => o.Order.OrderTime).ToList();
+
+            return PartialView("_DealIndex", rentOrders);
+        }
+        public ActionResult Complete()
+        {
+            var rentOrders = db.OrderDetails.Where(
+                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.Status == 2).
+                 OrderBy(o => o.Order.OrderTime).ToList();
+
+            return PartialView("_Complete", rentOrders);
+        }
         public ActionResult IsCancleIndex()
         {
             var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.LoginName == User.Identity.Name && o.Order.UserManager != 0 && o.Order.PayYesNo == 2).
+                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo == 2).
                  OrderBy(o => o.Order.OrderTime).ToList();
 
             return PartialView("_IsCancleIndex", rentOrders);
+        }
+        public ActionResult NoEvaluate()
+        {
+            var rentOrders = db.OrderDetails.Where(
+                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager==1 && o.Order.Status == 2&&o.Order.Evaluate==0).
+                 OrderBy(o => o.Order.OrderTime).ToList();
+
+            return PartialView("_NoEvaluate", rentOrders);
         }
         public ActionResult Delete(int? recordID)
         {
@@ -196,7 +233,22 @@ namespace CarsRent.Controllers
             }
 
         }
-
+        public ActionResult DeleteAll(string ids)
+        {
+            JsonResult json = new JsonResult();
+            json.Data = false;
+            ids = ids.Substring(0, ids.Length - 1);
+            string[] id = ids.Split(',');
+            for (int i = 0; i < id.Length; i++)
+            {
+                int recordId = int.Parse(id[i]);
+                var order = db.Orders.SingleOrDefault(o => o.OrderId == recordId);
+                order.UserManager = 0;
+                db.SaveChanges();
+                json.Data = true;
+            }
+            return Json(json.Data, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult PayOrder(int? orderID)
         {
             if (orderID == null)

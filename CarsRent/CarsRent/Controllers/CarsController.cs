@@ -16,22 +16,56 @@ namespace CarsRent.Controllers
     {
         private CarsRentDB db = new CarsRentDB();
 
+        public ActionResult ss(int? Brand,int? Categroy)
+        {
+            return View();
+        }
+
         // GET: Cars
-        public ActionResult Index(int? page)
+        public ActionResult Index()
+        {
+            var categroy = db.Categroys.ToList();
+            var brand = db.Brands.ToList();
+            var seat = db.SeatNums.ToList();
+            ViewBag.Brand = brand;
+            ViewBag.Categroy = categroy;
+            ViewBag.SeatNum = seat;
+            return View();
+        }
+        public ActionResult CarList(int? page, int? BrandID, int? CategroyID, int? seatNum, decimal? min, decimal? max)
         {
             if (page == null)
             {
                 page = 1;
             }
-            var categroy = db.Categroys.ToList();
-            var brand = db.Brands.ToList();
-            var cars = db.Cars.Include(c => c.Brand).Include(c => c.Categroy).Include(c => c.SeatNum).OrderBy(c=>c.CarId);
-            ViewBag.Brand = brand;
-            ViewBag.Categroy = categroy;
-            ViewBag.Car = cars;
-            return View(cars.ToPagedList((int)page, 12));
+            //IPagedList<Car> list = db.Cars.ToPagedList((int)page, 12);
+            var list = db.Cars.ToList();
+            if (BrandID != null)
+            {
+                list = list.Where(c => c.BrandId == BrandID).ToList();
+            }
+            if (CategroyID != null)
+            {
+                list = list.Where(c => c.CategroyId == CategroyID).ToList();
+            }
+            if (seatNum != null)
+            {
+                list = list.Where(c => c.SeatNumId == seatNum).ToList();
+            }
+            if (min != null && max != null)
+            {
+                list = list.Where(c => c.RentPrice >= min && c.RentPrice <= max).ToList();
+            }
+            else if (min == null && max != null)
+            {
+                list = list.Where(c => c.RentPrice >= max).ToList();
+            }
+            else if (min != null && max == null)
+            {
+                list = list.Where(c => c.RentPrice <= min).ToList();
+            }
+            return PartialView("_CarList", list.ToPagedList((int)page, 12));
         }
-
         // GET: Cars/Details/5
         public ActionResult Details(int? id)
         {

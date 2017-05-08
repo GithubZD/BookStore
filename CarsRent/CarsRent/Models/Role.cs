@@ -5,20 +5,22 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-
-    public partial class SeatNum
+    public class Role
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public SeatNum()
+        public Role()
         {
-            Cars = new HashSet<Car>();
+            Users = new HashSet<User>();
         }
 
-        public int SeatNumId { get; set; }
-        [Display(Name = "车座数量")]
-        public string SeatNumber { get; set; }
+        public int RoleId { get; set; }
+
+        [Required]
+        [StringLength(20)]
+        [Display(Name = "角色名")]
+        public string RoleName { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Car> Cars { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -15,27 +15,11 @@ namespace CarsRent.Controllers
         
         public ActionResult Index()
         {
-            //List<Car> list = db.Cars.Take(8).ToList();
-            DateTime nowDate = DateTime.Now;
-            DateTime d = new DateTime(2017, 04, 26, 00, 00, 00);
-            //TimeSpan subtractDate = d1 - nowDate;
-            int day = (d - nowDate).Days;
-
-
-            string str1 = "2017-2-13 23:59:59";
-
-            string str2 = "2017-2-14 0:00:01";
-
-            DateTime d1 = Convert.ToDateTime(str1);
-
-            DateTime d2 = Convert.ToDateTime(str2);
-
-            DateTime d3 = Convert.ToDateTime(string.Format("{0}-{1}-{2}", d1.Year, d1.Month, d1.Day));
-
-            DateTime d4 = Convert.ToDateTime(string.Format("{0}-{1}-{2}", d2.Year, d2.Month, d2.Day));
-
-            int days = (d4 - d3).Days;
-
+            if (User.Identity.IsAuthenticated) {
+                var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
+                ViewBag.UserIcon = user.Icon;
+            }
+            CancelOrder();
             return View();
         }
         [AllowAnonymous]

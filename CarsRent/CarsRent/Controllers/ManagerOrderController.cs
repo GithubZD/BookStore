@@ -17,10 +17,42 @@ namespace CarsRent.Controllers
         // GET: MangerOrder
         public ActionResult Index()
         {
-            var orderList = db.Orders.Where(o => o.AdminManager == 1&&o.PayYesNo!=0).ToList();
-            return View(orderList);
+            
+            return View();
         }
 
+
+        public ActionResult OrderList( string OrderInfo)
+        {
+            var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o=>o.OrderId).ToList();
+            return PartialView("_OrderList", orderList);
+        }
+        public ActionResult OrderCategory(int? Pay)
+        {
+            if (Pay == null)
+            {
+                var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o => o.OrderId).ToList();
+                return PartialView("_OrderList", orderList);
+            }
+            else
+            {
+                var orderList = db.Orders.Where(o => o.AdminManager == 1&&o.PayYesNo==Pay).OrderByDescending(o => o.OrderId).ToList();
+                return PartialView("_OrderList", orderList);
+            }
+        }
+        public ActionResult OrderCarStatus(int? CarStatus)
+        {
+            if (CarStatus == null)
+            {
+                var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o => o.OrderId).ToList();
+                return PartialView("_OrderList", orderList);
+            }
+            else
+            {
+                var orderList = db.Orders.Where(o => o.AdminManager == 1 && o.Status == CarStatus).OrderByDescending(o => o.OrderId).ToList();
+                return PartialView("_OrderList", orderList);
+            }
+        }
         // GET: MangerOrder/Details/5
         public ActionResult Details(int? id)
         {

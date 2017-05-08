@@ -8,15 +8,15 @@
 
     public partial class User
     {
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        //public User()
-        //{
-        //    OrderDetails = new HashSet<OrderDetail>();
-        //}
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public User()
+        {
+            Orders= new HashSet<Order>();
+        }
 
         public int UserId { get; set; }
 
-        [StringLength(50)]
+        [StringLength(100)]
         public string Icon { get; set; }
 
         [StringLength(20)]
@@ -52,10 +52,11 @@
         [Display(Name = "家庭住址")]
         public string Address { get; set; }
 
-        [StringLength(50)]
-        public string Role { get; set; }
+        public int RoleId { get; set; }
 
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual Role Role{ get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders{ get; set; }
     }
 }

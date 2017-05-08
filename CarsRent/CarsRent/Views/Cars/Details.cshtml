@@ -178,6 +178,9 @@
                         var id = data.id;
                         location.href = "/RentOrders/Details?id="+id;
                     }
+                    else if (data.Status == 2) {
+                        alert("Sorry!你选择的车辆数量不够，请重新选择其他车辆！");
+                    }
                     else {
                         location.href = "/Home/ErrorMessage";
                     }

@@ -6,8 +6,9 @@
     @Html.AntiForgeryToken()
             <div id="cssmenu">
                 <ul>
+                    <li><img src="@ViewBag.UserIcon" style="width:80px;height:80px;border-radius:80px;" /></li>
                     <li>
-                        @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "User", routeValues: null, htmlAttributes: new { title = "Manage" })
                     </li>
                     <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
                 </ul>

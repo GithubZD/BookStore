@@ -81,7 +81,7 @@ namespace NIIT.BookStore.Web.Controllers
         {
             ClaimsIdentity _identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
             _identity.AddClaim(new Claim(ClaimTypes.Name, user.LoginName));
-            _identity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+            _identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.RoleName));
             _identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
             _identity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity"));
             return _identity;
@@ -120,7 +120,7 @@ namespace NIIT.BookStore.Web.Controllers
                     {
                         LoginName = model.LoginName,
                         Password = password,
-                        Role = "Customer"
+                        RoleId =2 
                     };
                     var result = _db.Users.Add(newUser);
                     _db.SaveChanges();

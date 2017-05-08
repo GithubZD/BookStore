@@ -16,10 +16,12 @@ namespace CarsRent.Models
         public virtual DbSet<CanaelOrder> CanaelOrders { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
         public virtual DbSet<Categroy> Categroys { get; set; }
+        public virtual DbSet<Evaluate> Evaluates { get; set; }
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<SeatNum> SeatNums { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -49,10 +51,20 @@ namespace CarsRent.Models
                 .WithRequired(e => e.SeatNum)
                 .WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<User>()
-            //    .HasMany(e => e.OrderDetails)
-            //    .WithRequired(e => e.User)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Evaluate>()
+                .HasMany(e => e.OrderDetails)
+                .WithRequired(e => e.Evaluate)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Orders)
+                .WithRequired(e => e.User)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Role>()
+                .HasMany(e => e.Users)
+                .WithRequired(e => e.Role)
+                .WillCascadeOnDelete(false);
         }
     }
 }

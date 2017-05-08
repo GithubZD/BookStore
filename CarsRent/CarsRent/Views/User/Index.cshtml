@@ -31,9 +31,19 @@
         <tr>
             <td colspan="2">
                 <div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal" style="margin: 10px;">
-                        修改头像
-                    </button>
+                    @if (Model.Icon != null)
+                    {
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal" style="margin: 10px;">
+                            修改头像
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#avatar-modal" style="margin: 10px;">
+                            上传头像
+                        </button>
+                    }
+
                     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -225,13 +235,14 @@
 
 			});
 
-			$(".avatar-save").on("click", function() {
+			$(".avatar-save").on("click", function () {
+			    
 			    var img_lg = document.getElementById('imageHead');
 				// 截图小的显示框内的内容
 				html2canvas(img_lg, {
 					allowTaint: true,
 					taintTest: false,
-					onrendered: function(canvas) {
+					onrendered: function (canvas) {
 						canvas.id = "mycanvas";
 						//生成base64图片数据
 						var dataUrl = canvas.toDataURL("image/jpeg");
@@ -245,13 +256,11 @@
 			function imagesAjax(src) {
 				var data = {};
 				data.img = src;
-				data.jid = $('#jid').val();
 				var fileName = $("#avatar-name").text();
 				var userId = $("#avatar-name").attr("data-id");
-				alert(fileName);
 				$.ajax({
-				    url: "~/User/AddIcon",
-				    data: { iconFile: fileName, UserID: userId },
+				    url: "/User/AddIcon",
+				    data: { iconString: src, UserID: userId },
 					type: "POST",
 					dataType: 'json',
 					success: function(re) {

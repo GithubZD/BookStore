@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CarsRent.Models.Car>
+@using X.PagedList.Mvc
+@using X.PagedList
+
+<div class="table-responsive">
+    <h3 class="margin-bottom-15">汽车列表</h3>
+    <table class="table table-striped table-hover table-bordered" style="padding:10px">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CarName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RentPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NowNumber)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+@if (Model != null && Model.Count() > 0)
+{
+
+            foreach (var item in Model)
+            {
+                <tr id="record_@item.CarId">
+                    <td>
+                        <img src="@item.ImageUrl" alt="270*170" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CarName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeatNum.SeatNumber)<i>座</i>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentPrice)<i>/天</i>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NowNumber)
+                    </td>
+                    <td>
+                        @Html.ActionLink("租车", "EditOrder", "Cars",
+                                new { id = item.CarId }, new { @class = "btn btn-default" })
+                    </td>
+                </tr>
+    }
+}
+else
+{
+    <tr><td colspan="9"><h3>没有所查找的数据。</h3></td></tr>
+}
+        </tbody>
+    </table>
+
+</div>
+@Html.PagedListPager((IPagedList)Model, p => Url.Action("Index", new { page = p }))

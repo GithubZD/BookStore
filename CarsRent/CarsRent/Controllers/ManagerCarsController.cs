@@ -16,14 +16,47 @@ namespace CarsRent.Controllers
         private CarsRentDB db = new CarsRentDB();
 
         // GET: ManagerCars
-        public ActionResult Index(int? page)
+        public ActionResult Index()
+        {
+            var categroy = db.Categroys.ToList();
+            var brand = db.Brands.ToList();
+            ViewBag.Brand = brand;
+            ViewBag.Category = categroy;
+            return View();
+        }
+        public ActionResult ListCar(int? page,string carName)
         {
             if (page == null)
             {
                 page = 1;
             }
-            var cars = db.Cars.Include(c => c.Brand).Include(c => c.Categroy).Include(c => c.SeatNum).OrderByDescending(c=>c.CarId);
-            return View(cars.ToPagedList((int)page, 20));
+            if (carName == null)
+            {
+                var cars = db.Cars.OrderByDescending(c => c.CarId);
+                return PartialView("_ListCar", cars.ToPagedList((int)page, 12));
+            }
+            else
+            {
+                var cars = db.Cars.Where(c => c.CarName.Contains(carName)).OrderByDescending(c => c.CarId);
+                return PartialView("_ListCar", cars.ToPagedList((int)page, 12));
+            }
+        }
+        public ActionResult ListCarCheck(int? page, int? BrandID, int? CategroyID)
+        {
+            if (page == null)
+            {
+                page = 1;
+            }
+            var list = db.Cars.OrderByDescending(c => c.CarId).ToList();
+            if (BrandID != null)
+            {
+                list = list.Where(c => c.BrandId == BrandID).OrderByDescending(c => c.CarId).ToList();
+            }
+            if (CategroyID != null)
+            {
+                list = list.Where(c => c.CategroyId == CategroyID).OrderByDescending(c => c.CarId).ToList();
+            }
+           return PartialView("_ListCar", list.ToPagedList((int)page, 12));
         }
 
         // GET: ManagerCars/Details/5
