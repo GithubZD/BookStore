@@ -51,13 +51,23 @@ namespace CarsRent.Models
                 .WithRequired(e => e.SeatNum)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Evaluate>()
-                .HasMany(e => e.OrderDetails)
-                .WithRequired(e => e.Evaluate)
+            modelBuilder.Entity<Car>()
+                .HasMany(e => e.Evaluates)
+                .WithRequired(e => e.Car)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<OrderDetail>()
+                .HasMany(e => e.Evaluates)
+                .WithRequired(e => e.OrderDetail)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Orders)
+                .WithRequired(e => e.User)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.Evaluates)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 

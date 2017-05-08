@@ -8,6 +8,12 @@
 
     public partial class OrderDetail
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public OrderDetail()
+        {
+            Evaluates = new HashSet<Evaluate>();
+        }
+
         [Key]
         public int OrderDetailsId { get; set; }
 
@@ -16,8 +22,6 @@
 
         [Required]
         public int CarId { get; set; }
-
-        public int EvaluateId { get; set; }
         //[Required]
         //public int UserId { get; set; }
 
@@ -50,8 +54,8 @@
 
         public virtual Order Order { get; set; }
 
-        public virtual Evaluate Evaluate { get; set; }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Evaluate> Evaluates { get; set; }
         //public virtual User User { get; set; }
     }
 }

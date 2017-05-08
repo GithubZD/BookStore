@@ -15,10 +15,10 @@ namespace CarsRent.Controllers
         
         public ActionResult Index()
         {
-            if (User.Identity.IsAuthenticated) {
-                var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
-                ViewBag.UserIcon = user.Icon;
-            }
+            //if (User.Identity.IsAuthenticated) {
+            //    var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
+            //    ViewBag.UserIcon = user.Icon;
+            //}
             CancelOrder();
             return View();
         }
@@ -26,6 +26,15 @@ namespace CarsRent.Controllers
         public void CancelOrder()
         {
             DateTime nowDate = DateTime.Now;
+            try
+            {
+                var rent = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
             var rentOrders = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
             foreach (var item in rentOrders)
             {

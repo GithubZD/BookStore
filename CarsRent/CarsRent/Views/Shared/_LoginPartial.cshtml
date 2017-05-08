@@ -6,7 +6,7 @@
     @Html.AntiForgeryToken()
             <div id="cssmenu">
                 <ul>
-                    <li><img src="@ViewBag.UserIcon" style="width:80px;height:80px;border-radius:80px;" /></li>
+                    <li>@{Html.RenderAction("GetUserIcon", "User");}</li>
                     <li>
                         @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "User", routeValues: null, htmlAttributes: new { title = "Manage" })
                     </li>
@@ -19,7 +19,7 @@ else
 {
         <div id="cssmenu">
             <ul>
-                <li><img src="~/Images/IconImg/common.png" style="width:80px;height:80px;border-radius:80px;" /></li>
+                <li><a href="/Account/Login"><img src="~/Images/IconImg/common.png" style="width:80px;height:80px;border-radius:80px;" /></a></li>
                 <li>@Html.ActionLink("注册", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                 <li>@Html.ActionLink("登录", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
             </ul>

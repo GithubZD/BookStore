@@ -12,6 +12,7 @@
         public Car()
         {
             OrderDetails = new HashSet<OrderDetail>();
+            Evaluates = new HashSet<Evaluate>();
         }
 
         public int CarId { get; set; }
@@ -57,5 +58,7 @@
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Evaluate> Evaluates { get; set; }
     }
 }

@@ -7,18 +7,18 @@
     using System.Data.Entity.Spatial;
     public partial class Evaluate
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Evaluate()
-        {
-            OrderDetails = new HashSet<OrderDetail>();
-        }
+
         [Key]
         public int EvaluateId { get; set; }
-
+        public int OrderDetailsId { get; set; }
+        public int CarId { get; set; }
+        public int UserId { get; set; }
+        
         [Display(Name = "评价")]
         public string EvaluateContent { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
+        public virtual Car Car { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -34,6 +34,13 @@ namespace CarsRent.Controllers
 
             return View(user);
         }
+
+        public ActionResult GetUserIcon()
+        {
+            var user = db.Users.SingleOrDefault(u=>u.LoginName==User.Identity.Name);
+            ViewBag.UserIcon = user.Icon;
+            return PartialView("_UserIcon");
+        }
         public ActionResult UserInfo(int id)
         {
             var user = db.Users.Find(id);

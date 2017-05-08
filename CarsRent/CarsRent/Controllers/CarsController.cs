@@ -74,6 +74,7 @@ namespace CarsRent.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Car car = db.Cars.Find(id);
+            ViewBag.UserEvaluate = db.Evaluates.Where(e => e.CarId == id&&e.EvaluateContent!=null).ToList();
             if (car == null)
             {
                 return HttpNotFound();

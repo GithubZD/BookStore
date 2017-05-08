@@ -127,7 +127,37 @@
         <p>@Html.Raw(Model.Details)</p>
     </div>
 </div>
+<div>
+    <hr />
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <caption>用户评价</caption>
+        <tbody>
+            @if (ViewBag.UserEvaluate!=null)
+            {
+                foreach (CarsRent.Models.Evaluate item in ViewBag.UserEvaluate)
+                {
+                    <tr>
+                        <td>
+                            <h4>@item.User.LoginName</h4>
+                            <p>@item.EvaluateContent</p>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        <h4>暂无用户评价</h4>
+                    </td>
+                </tr>
+            }
 
+        </tbody>
+    </table>
+</div>
 <p>
     @Html.ActionLink("返回", "Index")
 </p>
