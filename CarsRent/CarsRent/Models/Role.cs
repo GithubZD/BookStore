@@ -15,7 +15,6 @@
 
         public int RoleId { get; set; }
 
-        [Required]
         [StringLength(20)]
         [Display(Name = "角色名")]
         public string RoleName { get; set; }

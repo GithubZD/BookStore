@@ -8,9 +8,11 @@ using System.Web;
 using System.Web.Mvc;
 using CarsRent.Models;
 using X.PagedList;
+using System.Windows.Forms;
 
 namespace CarsRent.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class ManagerCarsController : Controller
     {
         private CarsRentDB db = new CarsRentDB();
@@ -129,9 +131,10 @@ namespace CarsRent.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CarId,CategroyId,SeatNumId,BrandId,CarName,PlateNumber,RentPrice,Number,Details")] Car car,
-             HttpPostedFileBase imageFile)
+            HttpPostedFileBase imageFile)
         {
             if (ModelState.IsValid)
             {
@@ -185,7 +188,8 @@ namespace CarsRent.Controllers
         {
             return View();
          }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateCategroy([Bind(Include = "CategoryId,CategoryName")] Categroy categroy)
         {
             if (ModelState.IsValid)
@@ -201,7 +205,8 @@ namespace CarsRent.Controllers
         {
             return View();
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateBrand([Bind(Include = "BrandId,BrandName")] Brand brand)
         {
             if (ModelState.IsValid)

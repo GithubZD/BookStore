@@ -33,15 +33,15 @@
                     <dd>
                         @Html.DisplayFor(model => model.AwayTime)
                     </dd>
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.ReturnTime)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.ReturnTime)
-                    </dd>
-
+                        @if (Model.ReturnTime != null)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.ReturnTime)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.ReturnTime)
+                            </dd>
+                        }
                     <dt>
                         @Html.DisplayNameFor(model => model.Days)
                     </dt>
@@ -79,7 +79,7 @@
         </tr>
         <tr>
             <td>
-                @Html.DisplayFor(model => model.Car.CarName)
+                <h3>@Html.DisplayFor(model => model.Car.CarName)</h3>
             </td>
             <td></td>
         </tr>

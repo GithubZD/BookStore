@@ -8,11 +8,11 @@
         <header>
             <ul class="nav nav-pills" style="background-color:lightgrey">
                 <li class="active" id="nav_name"><a>全部订单</a></li>&nbsp;
-                <li id="nav_name"><a id="checkByPay" data-id="0">待付款</a></li>&nbsp;
-                <li id="nav_name"><a id="checkByPay" data-id="1">已付款</a></li>&nbsp;
-                <li id="nav_name"><a id="checkByStatus" data-id="1">正在使用</a></li>&nbsp;
-                <li id="nav_name"><a id="checkByStatus" data-id="2">已完成</a></li>&nbsp;
-                <li id="nav_name"><a id="checkByPay" data-id="2">已取消</a></li>
+                <li id="nav_name"><a class="checkByPay" data-id="0">待付款</a></li>&nbsp;
+                <li id="nav_name"><a class="checkByPay" data-id="1">已付款</a></li>&nbsp;
+                <li id="nav_name"><a class="checkByStatus" data-id="1">正在使用</a></li>&nbsp;
+                <li id="nav_name"><a class="checkByStatus" data-id="2">已完成</a></li>&nbsp;
+                <li id="nav_name"><a class="checkByPay" data-id="2">已取消</a></li>
             </ul>
         </header>
 
@@ -22,7 +22,7 @@
     </div>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4>User Table</h4>
+            <h4>Order Table</h4>
         </div>
         <div class="panel-body">
 
@@ -33,7 +33,7 @@
                     </div>
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
-                            <input type="text" id="order_info" class="form-control" placeholder="Search">
+                            <input type="text" id="order_info" class="form-control" placeholder="请输入用户名">
                         </div>
                         <a id="btn-search" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                     </form>
@@ -108,7 +108,7 @@
                             }
                         })
                     })
-                    $("#checkByPay").click(function () {
+                    $(".checkByPay").click(function () {
                         var PayYesNo = $(this).attr("data-id");
                         $.ajax({
                             type: "POST",
@@ -123,12 +123,12 @@
                             }
                         })
                     })
-                    $("#checkByStatus").click(function () {
+                    $(".checkByStatus").click(function () {
                         var carStatus = $(this).attr("data-id");
                         $.ajax({
                             type: "POST",
-                            url: "/ManagerOrder/OrderCarStatus",
-                            data: { CarStatus: carStatus },
+                            url: "/ManagerOrder/OrderCategory",
+                            data: { CarStatus:carStatus },
                             datatype: "json",
                             success: function (date) {
                                 $("#order_list").html(date);
@@ -139,5 +139,6 @@
                         })
                     })
                 });
+                //$(document).on("click","")
             </script>
         }

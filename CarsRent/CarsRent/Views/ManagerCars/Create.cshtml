@@ -18,9 +18,10 @@
 
 
         <div class="form-group">
-            <img src="~/Images/images/photo_icon.png" id="pic"/>
+            <img src="~/Images/images/photo_icon.png" id="CarImg"/>
             <div class="col-md-10">
-                <input name="imageFile" type="file" class="form-control" id="upload"/>
+                <input type="button" value="选择图片" class="btn btn-default" id="pic"/>
+                <input name="imageFile" type="file" class="form-control hidden" id="upload"/>
             </div>
         </div>
         <br />
@@ -78,7 +79,6 @@
                 @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Details, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -111,7 +111,7 @@
                 $("#upload").on("change", function () {
                     var objUrl = getObjectURL(this.files[0]); 
                     if (objUrl) {
-                        $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+                        $("#CarImg").attr("src", objUrl); //将图片路径存入src中，显示出图片
                     }
                 });
             });

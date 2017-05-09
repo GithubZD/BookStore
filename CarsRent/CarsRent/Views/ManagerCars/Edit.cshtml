@@ -7,7 +7,8 @@
 <h2>重新编辑车辆信息</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "ManagerCars", FormMethod.Post,
+    new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -18,9 +19,12 @@
         @Html.HiddenFor(model => model.CarId)
 
         <div class="form-group">
-            <img src="@Model.ImageUrl" id="pic" alt="270*170"/>
+            <div>
+                <img id="CarImg" src="@Model.ImageUrl" alt="270*170"  height="170" width="270"/>
+            </div>
             <div class="col-md-10">
-                <input name="imageFile" type="file" class="form-control" id="upload" value="重新选择" />
+                <input  type="button" value="重新选择" id="pic" class="btn btn-default"/>
+                <input name="imageFile" type="file" class="form-control hidden" id="upload"/>
             </div>
         </div>
         <br />
@@ -121,7 +125,7 @@
                 $("#upload").on("change", function () {
                     var objUrl = getObjectURL(this.files[0]); //获取图片的路径，该路径不是图片在本地的路径
                     if (objUrl) {
-                        $("#pic").attr("src", objUrl); //将图片路径存入src中，显示出图片
+                        $("#CarImg").attr("src", objUrl); //将图片路径存入src中，显示出图片
                     }
                 });
             });

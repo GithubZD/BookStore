@@ -10,6 +10,7 @@ using CarsRent.Models;
 
 namespace CarsRent.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ManagerUserController : Controller
     {
         private CarsRentDB db = new CarsRentDB();

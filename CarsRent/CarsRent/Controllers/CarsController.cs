@@ -16,11 +16,6 @@ namespace CarsRent.Controllers
     {
         private CarsRentDB db = new CarsRentDB();
 
-        public ActionResult ss(int? Brand,int? Categroy)
-        {
-            return View();
-        }
-
         // GET: Cars
         public ActionResult Index()
         {
@@ -67,51 +62,8 @@ namespace CarsRent.Controllers
             return PartialView("_CarList", list.ToPagedList((int)page, 12));
         }
         // GET: Cars/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Car car = db.Cars.Find(id);
-            ViewBag.UserEvaluate = db.Evaluates.Where(e => e.CarId == id&&e.EvaluateContent!=null).ToList();
-            if (car == null)
-            {
-                return HttpNotFound();
-            }
-            return View(car);
-        }
 
-        // GET: Cars/Create
-        public ActionResult Create()
-        {
-            ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "BrandName");
-            ViewBag.CategroyId = new SelectList(db.Categroys, "CategoryId", "CategoryName");
-            ViewBag.SeatNumId = new SelectList(db.SeatNums, "SeatNumId", "SeatNumId");
-            return View();
-        }
-
-        // POST: Cars/Create
-        // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
-        // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CarId,CategroyId,SeatNumId,BrandId,CarName,PlateNumber,RentPrice,Number,NowNumber,ImageUrl,Details")] Car car)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Cars.Add(car);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.BrandId = new SelectList(db.Brands, "BrandId", "BrandName", car.BrandId);
-            ViewBag.CategroyId = new SelectList(db.Categroys, "CategoryId", "CategoryName", car.CategroyId);
-            ViewBag.SeatNumId = new SelectList(db.SeatNums, "SeatNumId", "SeatNumId", car.SeatNumId);
-            return View(car);
-        }
-
-        // GET: Cars/Edit/5
+        [Authorize]
         public ActionResult EditOrder(int? id)
         {
             if (id == null)
@@ -126,12 +78,7 @@ namespace CarsRent.Controllers
             return View(car);
         }
 
-        // POST: Cars/Edit/5
-        // 为了防止“过多发布”攻击，请启用要绑定到的特定属性，有关 
-        // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
-        
-        // GET: Cars/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -145,17 +92,12 @@ namespace CarsRent.Controllers
             return View(car);
         }
 
-        // POST: Cars/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult UserEvaluate(int? id)
         {
-            Car car = db.Cars.Find(id);
-            db.Cars.Remove(car);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+            ViewBag.UserEvaluate = db.Evaluates.Where(e => e.CarId == id && e.EvaluateContent != null).ToList();
 
+            return PartialView("_UserEvaluate");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

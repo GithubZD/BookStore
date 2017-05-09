@@ -17,41 +17,41 @@
             <td>
                 <div style="float:left;min-width:300px ;margin-top:20px;margin-left:20px">
                     <div>
-                        <label>编辑租赁信息</label>
-                        <div><input id="carId" name="carID" type="hidden" value="@Model.CarId" /></div>
-                        <div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <span>数量：</span>
-                                    </td>
-                                    <td>
-                                        <input id="count" name="count" type="text" value="1" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>用车日期：</span>
-                                    </td>
-                                    <td>
-                                        <div class="iDate date">
-                                            <input type="text" id="orderDate" name="date">
-                                            <button type="button" class="addOn"></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span> 租赁天数：</span>
-                                    </td>
-                                    <td>
-                                        <input id="useDay" name="useDay" value="0" class="form-control" style="width:50px" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div><br /></div>
-                        <div><input type="submit" class="btn btn-primary" value="租赁此车" onclick="addOrder()" /></div>
+                        <h4>编辑租赁信息:</h4>
+                            <div><input id="carId" name="carID" type="hidden" value="@Model.CarId" /></div>
+                            <div>
+                                <table>
+                                    <tr class="Edit_Order">
+                                        <td>
+                                            <span>数量：</span>
+                                        </td>
+                                        <td>
+                                            <input id="count" class="count" type="text" value="1" />
+                                        </td>
+                                    </tr>
+                                    <tr class="Edit_Order">
+                                        <td>
+                                            <span>用车日期：</span>
+                                        </td>
+                                        <td>
+                                            <div class="iDate date">
+                                                <input type="text" id="orderDate" name="date">
+                                                <button type="button" class="addOn"></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="Edit_Order">
+                                        <td>
+                                            <span> 租赁天数：</span>
+                                        </td>
+                                        <td>
+                                            <input id="useDay" class="count" type="text" value="1" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div><br /></div>
+                            <div><input type="submit" class="btn btn-primary" value="租赁此车" onclick="addOrder()" /></div>
                     </div>
                     <hr />
                 </div>
@@ -116,7 +116,7 @@
         <tr>
             <td colspan="2">
                 <div>
-                    <h3>内容介绍</h3>
+                    <h3>车辆介绍</h3>
                     <p>@Html.Raw(Model.Details)</p>
                 </div>
             </td>
@@ -128,6 +128,12 @@
     @Html.ActionLink("返回", "Index")
 </p>
 
+<style type="text/css">
+.Edit_Order{
+    height:38px;
+}
+</style>
+
 @section Scripts{
     <link rel="stylesheet" type="text/css" href="~/Content/styles.css" media="all">
     <script type="text/javascript" src="~/Scripts/moment.js"></script>
@@ -136,7 +142,7 @@
     <script src="~/Scripts/jquery.spinner.js" type="text/javascript"></script>
     <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
     <script>
-    $("#count").spinner();
+    $(".count").spinner();
     $(document).ready(function () {
         // date time picker
         if ($(".iDate.date").length > 0) {

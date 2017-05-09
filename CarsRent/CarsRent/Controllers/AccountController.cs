@@ -16,7 +16,7 @@ using CarsRent.Common;
 
 namespace NIIT.BookStore.Web.Controllers
 {
-    [Authorize]
+    
     public class AccountController : Controller
     {
 
@@ -79,9 +79,10 @@ namespace NIIT.BookStore.Web.Controllers
 
         public ClaimsIdentity CreateIdentity(User user)
         {
+            string RoleName = _db.Roles.SingleOrDefault(r => r.RoleId == user.RoleId).RoleName;
             ClaimsIdentity _identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
             _identity.AddClaim(new Claim(ClaimTypes.Name, user.LoginName));
-            _identity.AddClaim(new Claim(ClaimTypes.Role, user.Role.RoleName));
+            _identity.AddClaim(new Claim(ClaimTypes.Role, RoleName));
             _identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
             _identity.AddClaim(new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity"));
             return _identity;

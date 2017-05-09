@@ -26,15 +26,8 @@ namespace CarsRent.Controllers
         public void CancelOrder()
         {
             DateTime nowDate = DateTime.Now;
-            try
-            {
-                var rent = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+            var rent = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
+ 
             var rentOrders = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
             foreach (var item in rentOrders)
             {

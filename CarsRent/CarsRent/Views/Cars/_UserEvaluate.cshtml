@@ -1,0 +1,31 @@
+﻿@model IEnumerable<CarsRent.Models.Evaluate>
+
+<div class="table-responsive">
+    <table class="table">
+        <caption style="display:initial;"><h4>用户评价</h4></caption>
+        <tbody>
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <h4>@item.User.LoginName</h4>
+                            <p>@item.EvaluateContent</p>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+            <tr>
+                <td>
+                    <h4>暂无用户评价</h4>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+

@@ -11,11 +11,13 @@ using System.Windows.Forms;
 
 namespace CarsRent.Controllers
 {
+    [Authorize]
     public class RentOrdersController : Controller
     {
         private CarsRentDB db = new CarsRentDB();
 
         // GET: RentOrders
+        [Authorize]
         public ActionResult Index()
         {
             var rentOrders = db.OrderDetails.Where(
@@ -26,6 +28,7 @@ namespace CarsRent.Controllers
         }
 
         // GET: RentOrders/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -40,65 +43,63 @@ namespace CarsRent.Controllers
             return View(rentOrder);
         }
 
-
+        [HttpPost]
         public ActionResult AddOrder(int? carID, int? count, DateTime? date, int? useDay)
         {
-
-            if (carID == null)
-            {
-                var result = new { Status = 0 };
-                return Json(result);
-            }
-
-            var car = db.Cars.Find(carID);
-            var user = db.Users.SingleOrDefault(u=>u.LoginName==User.Identity.Name);
-            if (car != null)
-            {
-                var newOrder = new Order
+                if (carID == null)
                 {
-                    UserId=user.UserId,
-                    OrderTime = DateTime.Now,
-                    PayYesNo = 0,
-                    Status = 0,
-                    UserManager = 1,
-                    AdminManager = 1
-                };
-                db.Orders.Add(newOrder);
-                int num = (int)count;
-                if (car.NowNumber >= num)
-                {
-                    car.NowNumber = car.NowNumber - num;
-                    var orderDetails = new OrderDetail
-                    {
-                        CarId = (int)carID,
-                        OrderId = newOrder.OrderId,
-                        AwayTime = (DateTime)date,
-                        Days = useDay,
-                        Deposit = useDay * num * car.RentPrice * (decimal)1.2,
-                        Money = useDay * num * car.RentPrice,
-                        Number = num,
-                    };
-                    db.OrderDetails.Add(orderDetails);
-                    db.SaveChanges();
-
-                    int id = orderDetails.OrderDetailsId;
-                    var result = new { Status = 1, id = id };
+                    var result = new { Status = 0 };
                     return Json(result);
                 }
 
+                var car = db.Cars.Find(carID);
+                var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
+                if (car != null)
+                {
+                    var newOrder = new Order
+                    {
+                        UserId = user.UserId,
+                        OrderTime = DateTime.Now,
+                        PayYesNo = 0,
+                        Status = 0,
+                        Evaluate = 0,
+                        UserManager = 1,
+                        AdminManager = 1
+                    };
+                    db.Orders.Add(newOrder);
+                    int num = (int)count;
+                    if (car.NowNumber >= num)
+                    {
+                        car.NowNumber = car.NowNumber - num;
+                        var orderDetails = new OrderDetail
+                        {
+                            CarId = (int)carID,
+                            OrderId = newOrder.OrderId,
+                            AwayTime = (DateTime)date,
+                            Days = useDay,
+                            Deposit = useDay * num * car.RentPrice * (decimal)1.2,
+                            Money = useDay * num * car.RentPrice,
+                            Number = num,
+                        };
+                        db.OrderDetails.Add(orderDetails);
+                        db.SaveChanges();
+
+                        int id = orderDetails.OrderDetailsId;
+                        var result = new { Status = 1, id = id };
+                        return Json(result);
+                    }
+
+                    else
+                    {
+                        var result = new { Status = 2 };
+                        return Json(result);
+                    }
+                }
                 else
                 {
-                    var result = new { Status = 2};
+                    var result = new { Status = 0 };
                     return Json(result);
                 }
-            }
-            else
-            {
-                var result = new { Status = 0};
-                return Json(result);
-            }
-
-
         }
 
         public ActionResult CancelOrder(int? recordID)

@@ -43,6 +43,7 @@
         public int NowNumber { get; set; }
 
         [StringLength(100)]
+        [Display(Name = "图片")]
         public string ImageUrl { get; set; }
 
         [Required]

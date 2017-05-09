@@ -10,6 +10,7 @@ using CarsRent.Models;
 
 namespace CarsRent.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ManagerOrderController : Controller
     {
         private CarsRentDB db = new CarsRentDB();
@@ -27,18 +28,28 @@ namespace CarsRent.Controllers
             var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o=>o.OrderId).ToList();
             return PartialView("_OrderList", orderList);
         }
-        public ActionResult OrderCategory(int? Pay)
+        public ActionResult OrderCategory(int? Pay,int? CarStatus)
         {
-            if (Pay == null)
+            if (CarStatus == null)
             {
-                var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o => o.OrderId).ToList();
-                return PartialView("_OrderList", orderList);
+                if (Pay == null)
+                {
+                    var orderList = db.Orders.Where(o => o.AdminManager == 1).OrderByDescending(o => o.OrderId).ToList();
+                    return PartialView("_OrderList", orderList);
+                }
+                else
+                {
+                    var orderList = db.Orders.Where(o => o.AdminManager == 1 && o.PayYesNo == Pay).OrderByDescending(o => o.OrderId).ToList();
+                    return PartialView("_OrderList", orderList);
+                }
             }
             else
             {
-                var orderList = db.Orders.Where(o => o.AdminManager == 1&&o.PayYesNo==Pay).OrderByDescending(o => o.OrderId).ToList();
-                return PartialView("_OrderList", orderList);
+                    var orderList = db.Orders.Where(o => o.AdminManager == 1&&o.PayYesNo!=0 && o.Status == CarStatus).OrderByDescending(o => o.OrderId).ToList();
+                    return PartialView("_OrderList", orderList);
+
             }
+
         }
         public ActionResult OrderCarStatus(int? CarStatus)
         {

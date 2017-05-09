@@ -31,7 +31,7 @@
             {
                 <tr id="record_@item.CarId">
                     <td>
-                        <img src="@item.ImageUrl" alt="270*170" />
+                        <a href="/Cars/Details/@item.CarId"><img src="@item.ImageUrl" alt="270*170" /></a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CarName)

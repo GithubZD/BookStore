@@ -6,157 +6,153 @@
 
 <h2><br /></h2>
 
-<div style="margin-left:40px">
-    <div style="float:left;margin:10px">
-        <img src="@Model.ImageUrl" alt="270*170"/>
-    </div>
-    <div style="float:left;min-width:300px">
-        <h4>@Html.DisplayFor(model => model.CarName)</h4>
-        <hr />
-        <div>价格：<span style="color:red">@Html.DisplayFor(model => model.RentPrice)/1天</span></div>
-        <div><hr style="clear:none;border:none" /></div>
-        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">
-            我要租车
-        </button>
-            <input id="carId" name="carID" type="hidden" value="@Model.CarId" />
-        <!-- 模态框（Modal） -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            &times;
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">
-                            编辑租赁信息
-                        </h4>
+<div style="margin-left:50px">
+    <table>
+        <tr>
+            <td>
+                <div style="float:left;margin:10px">
+                    <img src="@Model.ImageUrl" alt="270*170" />
+                </div>
+            </td>
+            <td>
+                <div style="float:left;min-width:300px">
+                    <h4>@Html.DisplayFor(model => model.CarName)</h4>
+                    <hr />
+                    <div style="margin:3px;">价格：<span style="color:red">@Html.DisplayFor(model => model.RentPrice)/1天</span></div>
+                    <a class="btn btn-default " href="/Cars/EditOrder/@Model.CarId" style="margin:3px;">
+                        我要租车
+                    </a>
+                    @*<button class="btn btn-primary " data-toggle="modal" data-target="#myModal">
+                        我要租车
+                    </button>*@
+                    <input id="carId" name="carID" type="hidden" value="@Model.CarId" />
+                    <!-- 模态框（Modal） -->
+                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                        &times;
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        编辑租赁信息
+                                    </h4>
+                                </div>
+                                <div>
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            <label>数量</label>
+                                        </dt>
+                                        <dd>
+                                            <input id="count" name="count" type="text" value="1" />
+                                        </dd>
+                                        <dt></dt>
+                                        <dd><br /></dd>
+                                        <dt>
+                                            <label>用车日期</label>
+                                        </dt>
+
+                                        <dd>
+                                            <div class="iDate date">
+                                                <input type="text" id="orderDate">
+                                                <button type="button" class="addOn"></button>
+                                            </div>
+                                            <div style="clear:both">
+                                            </div>
+                                        </dd>
+                                        <dt></dt>
+                                        <dd><br /></dd>
+                                        <dt>
+                                            <label>用车天数</label>
+                                        </dt>
+
+                                        <dd>
+                                            <input id="useDay" value="0" class="form-control" style="width:50px" />
+                                        </dd>
+                                    </dl>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="addOrder" onclick="addOrder()">
+                                            确认
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
                     </div>
-                    <div>
-                        <dl class="dl-horizontal">
-                            <dt>
-                                <label>数量</label>
-                            </dt>
-                            <dd>
-                                <input id="count" name="count" type="text" value="1" />
-                            </dd>
-                            <dt></dt>
-                            <dd><br /></dd>
-                            <dt>
-                                <label>用车日期</label>
-                            </dt>
+                    <hr />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3>基本信息</h3>
+                    <dl class="dl-horizontal" style="font-size:15px">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Brand.BrandName)
+                        </dt>
 
-                            <dd>
-                                <div class="iDate date">
-                                    <input type="text" id="orderDate">
-                                    <button type="button" class="addOn"></button>
-                                </div>
-                                <div style="clear:both">
-                                </div>
-                            </dd>
-                            <dt></dt>
-                            <dd><br /></dd>
-                            <dt>
-                                <label>用车天数</label>
-                            </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Brand.BrandName)
+                        </dd>
 
-                            <dd>
-                                <input id="useDay" value="0" class = "form-control" style="width:50px"/>
-                            </dd>
-                        </dl>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    关闭
-                                </button>
-                                <button type="button" class="btn btn-primary" id="addOrder" onclick="addOrder()">
-                                    确认
-                                </button>
-                            </div>
-</div><!-- /.modal-content -->
-            </div><!-- /.modal -->
-        </div>
-    </div>
-        <hr />
-    </div>
-    <div>
-        <h3>基本信息</h3>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Brand.BrandName)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Categroy.CategoryName)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Brand.BrandName)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Categroy.CategoryName)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Categroy.CategoryName)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Categroy.CategoryName)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.SeatNum.SeatNumber)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PlateNumber)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.SeatNum.SeatNumber)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.PlateNumber)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.PlateNumber)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RentPrice)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.PlateNumber)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.RentPrice)
+                        </dd>
+                    </dl>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3>车辆介绍</h3>
+                    <p>@Html.Raw(Model.Details)</p>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.RentPrice)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.RentPrice)
-            </dd>
-        </dl>
-    </div>
-    <hr />
-    <div>
-        <h3>内容介绍</h3>
-        <p>@Html.Raw(Model.Details)</p>
-    </div>
+ 
 </div>
 <div>
     <hr />
 </div>
-<div class="table-responsive">
-    <table class="table">
-        <caption>用户评价</caption>
-        <tbody>
-            @if (ViewBag.UserEvaluate!=null)
-            {
-                foreach (CarsRent.Models.Evaluate item in ViewBag.UserEvaluate)
-                {
-                    <tr>
-                        <td>
-                            <h4>@item.User.LoginName</h4>
-                            <p>@item.EvaluateContent</p>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td>
-                        <h4>暂无用户评价</h4>
-                    </td>
-                </tr>
-            }
-
-        </tbody>
-    </table>
+<div>
+    @{ Html.RenderAction("UserEvaluate","Cars",new {id=Model.CarId});}
 </div>
 <p>
     @Html.ActionLink("返回", "Index")
