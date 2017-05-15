@@ -280,8 +280,17 @@ namespace CarsRent.Controllers
             }
             Evaluate evaluate = db.Evaluates.Find(EvaluateId);
             evaluate.EvaluateContent = evaluteContent;
+            evaluate.OrderDetail.Order.Evaluate = 1;
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult IsDelete()
+        {
+            var rentOrders = db.OrderDetails.Where(
+    o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager == 0).
+    OrderByDescending(o => o.Order.OrderTime).ToList();
+            return View(rentOrders);
         }
         protected override void Dispose(bool disposing)
         {

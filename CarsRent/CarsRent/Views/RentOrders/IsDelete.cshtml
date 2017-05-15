@@ -1,0 +1,163 @@
+﻿@model IEnumerable<CarsRent.Models.OrderDetail>
+
+<h2>垃圾箱</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr style="font-size:15px">
+            <th>
+            </th>
+            <th class="col_name">
+                @Html.DisplayNameFor(model => model.Car.CarName)
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.AwayTime)</span>
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.Days)</span>
+            </th>
+            <th class="col_name">
+                <span>实际付款</span>
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.Number)</span>
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.Order.PayYesNo)</span>
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.Order.Status)</span>
+            </th>
+            <th class="col_name">
+                <span>@Html.DisplayNameFor(model => model.Order.Evaluate)</span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <tr class="record_@item.OrderDetailsId">
+                    <td colspan="9" valign="bottom">
+                        <span>@item.Order.OrderTime.ToShortDateString().ToString()</span>
+                    </td>
+                </tr>
+                <tr class="record_@item.OrderDetailsId">
+                    <td></td>
+                    <td>
+                        <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" width="200" height="125" /></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Car.CarName)
+                    </td>
+                    <td>
+                        <p>@item.AwayTime.ToShortDateString().ToString()</p>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Days)
+                    </td>
+                    @if (item.Order.PayYesNo != 2)
+                    {
+                        <td>
+                            <span>租金:￥@Html.DisplayFor(modelItem => item.Money)</span>
+                            <br />
+                            <span>押金:￥@Html.DisplayFor(modelItem => item.Deposit)</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span>租金:￥@Html.DisplayFor(modelItem => item.Money)</span>
+                            <br />
+                            <span>押金:￥@Html.DisplayFor(modelItem => item.Deposit)</span>
+                            <br />
+                            <span>违约金:￥@Html.DisplayFor(modelItem => item.Compensation)</span>
+                        </td>
+                    }
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    @if (item.Order.PayYesNo == 0)
+                    {
+                        <td>
+                            <input type="button" class="btn btn-primary payOrder" value="去付款" data-id="@item.Order.OrderId" />
+                        </td>
+                    }
+                    else if (item.Order.PayYesNo == 1)
+                    {
+                        <td>
+                            <span>已付款</span>
+                            <div><br /></div>
+                            @if (item.Order.Status == 0)
+                            {
+                                <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span>订单已经取消</span>
+                        </td>
+                    }
+                    @if (item.Order.Status == 0)
+                    {
+                        <td>
+                            <span>未取车</span>
+                        </td>
+                    }
+                    else if (item.Order.Status == 1)
+                    {
+                        <td>
+                            <span>正在使用</span>
+                        </td>
+                    }
+                    else if (item.Order.Status == 2)
+                    {
+                        <td>
+                            <span>已还车</span>
+                        </td>
+                    }
+                    @if (item.Order.Evaluate == 0 && item.Order.Status == 2)
+                    {
+                        <td>
+                            <a class="btn btn-default" href="/RentOrders/EditEvaluate/@item.OrderDetailsId">追加评价</a>
+                            <div><br /></div>
+                            <a href="/Cars/EditOrder/@item.CarId">再次订车</a>
+                        </td>
+                    }
+                    else if (item.Order.Evaluate == 1 && item.Order.Status == 2)
+                    {
+                        <td>
+                            <a href="/Cars/EditOrder/@item.CarId">再次订车</a>
+                        </td>
+                    }
+                    else if (item.Order.Evaluate == 0 && item.Order.Status == 0)
+                    {
+                        <td>
+                            <a href="/Cars/EditOrder/@item.CarId">再次订车</a>
+                        </td>
+                    }
+                    else if (item.Order.Evaluate == 0 && item.Order.Status == 1)
+                    {
+                        <td>
+                            <a href="/Cars/EditOrder/@item.CarId">再次订车</a>
+                        </td>
+                    }
+                </tr>
+
+            }
+        }
+        else
+        {
+            <tr><td colspan="9"> <h3>暂无此类订单。</h3></td></tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+

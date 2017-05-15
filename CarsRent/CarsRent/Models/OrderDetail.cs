@@ -32,7 +32,7 @@
         public DateTime? ReturnTime { get; set; }
 
         [Required]
-        [Display(Name = "租用天数")]
+        [Display(Name = "天数")]
         public int? Days { get; set; }
 
         [Required]
@@ -44,7 +44,7 @@
         public decimal? Money { get; set; }
 
         [Required]
-        [Display(Name = "租用辆数")]
+        [Display(Name = "数辆")]
         public int? Number { get; set; }
         [Display(Name = "赔偿金")]
         public decimal? Compensation { get; set; }

@@ -138,6 +138,11 @@ namespace CarsRent.Controllers
 
         }
 
+        public ActionResult IsDelete()
+        {
+            var orderList = db.Orders.Where(o => o.AdminManager == 0).OrderByDescending(o => o.OrderId).ToList();
+            return View(orderList);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

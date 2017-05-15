@@ -66,7 +66,7 @@ namespace CarsRent.Controllers
         // 详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserInfo([Bind(Include = "UserId,Icon,LoginName,RealName,Password,CardNumber,Iphone,Age,Sex,Address,Role")] User user)
+        public ActionResult EditUserInfo([Bind(Include = "UserId,Icon,LoginName,RealName,Password,CardNumber,Iphone,Age,Sex,Address,RoleId")] User user)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)

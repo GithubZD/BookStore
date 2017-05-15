@@ -666,6 +666,8 @@
     <Content Include="Views\Cars\_UserEvaluate.cshtml" />
     <Content Include="Views\RentOrders\EditEvaluate.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\RentOrders\IsDelete.cshtml" />
+    <Content Include="Views\ManagerOrder\IsDelete.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

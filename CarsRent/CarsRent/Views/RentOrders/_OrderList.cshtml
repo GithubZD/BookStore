@@ -7,7 +7,7 @@
             </th>
             <th>
             </th>
-            <th>
+            <th class="col_name">
                 @Html.DisplayNameFor(model => model.Car.CarName)
             </th>
             <th class="col_name">
@@ -54,7 +54,7 @@
                     <tr class="record_@item.OrderDetailsId">
                         <td></td>
                         <td>
-                            <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" /></a>
+                            <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" width="200" height="125" /></a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Car.CarName)
@@ -139,8 +139,6 @@
                         else if (item.Order.Evaluate == 1 && item.Order.Status == 2)
                         {
                             <td>
-                                <span>查看评价</span>
-                                <div><br /></div>
                                 <a href="/Cars/EditOrder/@item.CarId">再次订车</a>
                             </td>
                         }
@@ -168,8 +166,11 @@
             <td valign="middle">
                 <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" />
             </td>
-            <td valign="middle" style="text-align:left " colspan="9">
+            <td valign="middle" style="text-align:left " colspan="8">
                 <button class="btn btn-default" id="deleteAll">全部删除</button>
+            </td>
+            <td valign="middle">
+                <a href="/RentOrders/IsDelete" class="btn btn-default">垃圾箱</a>
             </td>
         </tr>
     </tbody>

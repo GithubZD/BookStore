@@ -4,78 +4,90 @@
     ViewBag.Title = "Details";
 }
 
-<h2>车辆详情</h2>
+<h2>汽车详情</h2>
+<div style="margin-left:50px">
+    <table>
+        <tr>
+            <td>
+                <div style="float:left;margin:10px">
+                    <img height="250" width="400" src="@Model.ImageUrl" alt="270*170" />
+                </div>
+            </td>
+            <td>
+                <div style="float:left;min-width:300px">
+                    <h3>@Html.DisplayFor(model => model.CarName)</h3>
+                    <hr />
+                    <h4 style="margin:3px;">价格：<span style="color:red">@Html.DisplayFor(model => model.RentPrice)/1天</span></h4>
+                    <br />
+                    <a class="btn btn-default" style="vertical-align:middle;padding:0px 12px;margin:3px;" href="/Cars/EditOrder/@Model.CarId"><span>我要租车</span></a>
+                    <hr />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3>基本信息</h3>
+                    <dl class="dl-horizontal" style="font-size:15px">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Brand.BrandName)
+                        </dt>
 
-<div style="margin-left:40px">
-    <div style="float:left;margin:10px">
-        <img src="@Model.ImageUrl" alt="270*170"/>
-    </div>
-    <div style="float:left;min-width:300px">
-        <h4>@Html.DisplayFor(model => model.CarName)</h4>
-        <hr />
-    </div>
+                        <dd>
+                            @Html.DisplayFor(model => model.Brand.BrandName)
+                        </dd>
 
-    <div style="clear:both">
-        <hr />
-    </div>
-    <div>
-        <h3>基本信息</h3>
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Brand.BrandName)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Categroy.CategoryName)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Brand.BrandName)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Categroy.CategoryName)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Categroy.CategoryName)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Categroy.CategoryName)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.SeatNum.SeatNumber)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.SeatNum.SeatNumber)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.PlateNumber)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.SeatNum.SeatNumber)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.PlateNumber)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.PlateNumber)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RentPrice)
+                        </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.PlateNumber)
-            </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.RentPrice)
+                        </dd>
+                    </dl>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <h3>车辆介绍</h3>
+                    <p>@Html.Raw(Model.Details)</p>
+                </div>
+            </td>
+            <td></td>
+        </tr>
+    </table>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.RentPrice)
-            </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.RentPrice)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Number)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Number)
-            </dd>
-
-        </dl>
-    </div>
+</div>
+<div>
     <hr />
-    <div>
-        <h3>内容介绍</h3>
-        <p>@Html.Raw(Model.Details)</p>
-    </div>
 </div>
 
 <p>

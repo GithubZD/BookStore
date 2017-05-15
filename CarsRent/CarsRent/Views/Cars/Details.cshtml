@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-
+<h2>汽车详情</h2>
 <div style="margin-left:50px">
     <table>
         <tr>
@@ -19,7 +19,7 @@
                     <hr />
                     <h4 style="margin:3px;">价格：<span style="color:red">@Html.DisplayFor(model => model.RentPrice)/1天</span></h4>
                     <br />
-                    <a class="btn btn-default"  style="vertical-align:middle;padding:0px 12px;margin:3px;" href="/Cars/EditOrder/@Model.CarId"><span>我要租车</span></a>
+                    <a class="btn btn-default"  style="vertical-align:middle;padding:6px 12px;margin:3px;" href="/Cars/EditOrder/@Model.CarId"><span>我要租车</span></a>
                     <hr />
                 </div>
             </td>
@@ -59,14 +59,6 @@
 
                         <dd>
                             @Html.DisplayFor(model => model.PlateNumber)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.RentPrice)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.RentPrice)
                         </dd>
                     </dl>
                 </div>

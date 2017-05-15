@@ -1,0 +1,121 @@
+﻿
+@model IEnumerable<CarsRent.Models.Order>
+
+<h2>垃圾箱</h2>
+
+<div class="row" style="margin-top:20px">
+    <table class="table table-bordered">
+        <thead>
+            <tr style="font-size:16px">
+                <th>
+                    @Html.DisplayNameFor(model => model.User.RealName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTime)
+                </th>
+                <th>
+                    <label>订单状态</label>
+                </th>
+                <th>
+                    <label>车辆状态</label>
+                </th>
+                <th><label>详情</label></th>
+                <th>
+                    <label>备注</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr id="record_@item.OrderId">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.RealName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderTime)
+                        </td>
+                        @if (item.PayYesNo == 0)
+                        {
+                            <td>
+                                <span style="color:blue">未付款</span>
+                            </td>
+                        }
+                        else if (item.PayYesNo == 1)
+                        {
+                            <td>
+                                <span style="color:red">已付款</span>
+                            </td>
+                        }
+                        else if (item.PayYesNo == 2)
+                        {
+                            <td>
+                                <span>客户已经取消订单</span>
+                            </td>
+                        }
+                        @if (item.Status == 0 && item.PayYesNo == 0)
+                        {
+                            <td>
+                                <span style="color:blue">未取车</span>
+                            </td>
+                        }
+                        else if (item.Status == 0 && item.PayYesNo == 1)
+                        {
+                            <td>
+                                <span style="color:blue">未取车</span>
+                                &nbsp;&nbsp;
+                                <input type="button" class="btn btn-primary GetCar" data-id="@item.OrderId" value="客户取车" />
+                            </td>
+                        }
+                        else if (item.Status == 1 && item.PayYesNo == 1)
+                        {
+                            <td>
+                                <span style="color:red">正在使用</span>
+                                &nbsp;&nbsp;
+                                <input type="button" class="btn btn-primary ReturnCar" data-id="@item.OrderId" value="客户还车" />
+                            </td>
+                        }
+                        else if (item.Status == 0 && item.PayYesNo == 2)
+                        {
+                            <td>
+                                <span style="color:blue">未取车</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <span>已经归还</span>
+                            </td>
+                        }
+                        <td>
+                            @Html.ActionLink("订单详情", "Details", new { id = item.OrderId })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remark)
+                        </td>
+                        <td>
+                            <a id="deletList" class="delete" data-id="@item.OrderId" data-toggle="tooltip" data-placement="top" title="删除订单">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        <h4>暂无数据……</h4>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+</div>
+
+

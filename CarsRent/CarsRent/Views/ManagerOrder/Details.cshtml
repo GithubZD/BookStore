@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>订单详情</h2>
 <p>
     @Html.ActionLink("<返回", "Index") 
 </p>
@@ -12,11 +12,11 @@
     <table>
         <tr>
             <td>
-                <a href="~/Cars/Details/@Model.CarId"><img src="@Model.Car.ImageUrl" alt="270*170"/></a>
+                <a href="~/Cars/Details/@Model.CarId"><img src="@Model.Car.ImageUrl" alt="270*170" width="400" height="250"/></a>
                 
             </td>
             <td>
-                <dl class="dl-horizontal">
+                <dl class="dl-horizontal" style="font-size:16px">
 
                     <dt>
                         @Html.DisplayNameFor(model => model.Order.User.RealName)
