@@ -17,7 +17,7 @@ namespace CarsRent.Controllers
         private CarsRentDB db = new CarsRentDB();
 
         // GET: RentOrders
-        [Authorize]
+        //[Authorize]
         public ActionResult Index()
         {
             var rentOrders = db.OrderDetails.Where(
@@ -77,7 +77,7 @@ namespace CarsRent.Controllers
                             OrderId = newOrder.OrderId,
                             AwayTime = (DateTime)date,
                             Days = useDay,
-                            Deposit = useDay * num * car.RentPrice * (decimal)1.2,
+                            Deposit = useDay * num * car.RentPrice * (decimal)0.2,
                             Money = useDay * num * car.RentPrice,
                             Number = num,
                         };
@@ -122,7 +122,6 @@ namespace CarsRent.Controllers
                 DateTime d3 = Convert.ToDateTime(string.Format("{0}-{1}-{2}", d1.Year, d1.Month, d1.Day));
 
                 DateTime d4 = Convert.ToDateTime(string.Format("{0}-{1}-{2}", d2.Year, d2.Month, d2.Day));
-
                 int days = (d4 - d3).Days;
                 decimal? oneDayMoney = order.Money/order.Days;
                 decimal? BreachMoney = 0;
@@ -156,7 +155,6 @@ namespace CarsRent.Controllers
                 }
             }
         }
-
         public ActionResult AllOrder()
         {
             var rentOrders = db.OrderDetails.Where(
@@ -165,53 +163,41 @@ namespace CarsRent.Controllers
 
             return PartialView("_OrderList", rentOrders);
         }
-        public ActionResult IsPayIndex()
+        public ActionResult checkOrderByPay(int? Pay)
+        {
+            if (Pay == null)
+            {
+                var rentOrders = db.OrderDetails.Where(
+    o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager == 1).
+    OrderByDescending(o => o.Order.OrderTime).ToList();
+
+                return PartialView("_OrderList", rentOrders);
+            }
+            else
+            {
+                var rentOrders = db.OrderDetails.Where(
+    o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager == 1 && o.Order.PayYesNo == Pay).
+    OrderByDescending(o => o.Order.OrderTime).ToList();
+
+                return PartialView("_OrderList", rentOrders);
+            }
+
+        }
+        public ActionResult checkOrderByStatus(int? CarStatus)
         {
             var rentOrders = db.OrderDetails.Where(
-                o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo !=0&&o.Order.Status==0).
+                o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager == 1 && o.Order.PayYesNo == 1 && o.Order.Status == CarStatus).
                 OrderByDescending(o => o.Order.OrderTime).ToList();
 
-            return PartialView("_IsPayIndex", rentOrders);
+            return PartialView("_OrderList", rentOrders);
         }
-        public ActionResult NoPayIndex()
+        public ActionResult checkOrderEvaluate(int? noEvaluate)
         {
             var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo == 0).
-                 OrderByDescending(o => o.Order.OrderTime).ToList();
+                o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager == 1 && o.Order.PayYesNo == 1 && o.Order.Evaluate == noEvaluate).
+                OrderByDescending(o => o.Order.OrderTime).ToList();
 
-            return PartialView("_NoPayIndex", rentOrders);
-        }
-        public ActionResult DealIndex()
-        {
-            var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.Status == 1).
-                 OrderBy(o => o.Order.OrderTime).ToList();
-
-            return PartialView("_DealIndex", rentOrders);
-        }
-        public ActionResult Complete()
-        {
-            var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.Status == 2).
-                 OrderBy(o => o.Order.OrderTime).ToList();
-
-            return PartialView("_Complete", rentOrders);
-        }
-        public ActionResult IsCancleIndex()
-        {
-            var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager ==1 && o.Order.PayYesNo == 2).
-                 OrderBy(o => o.Order.OrderTime).ToList();
-
-            return PartialView("_IsCancleIndex", rentOrders);
-        }
-        public ActionResult NoEvaluate()
-        {
-            var rentOrders = db.OrderDetails.Where(
-                 o => o.Order.User.LoginName == User.Identity.Name && o.Order.UserManager==1 && o.Order.Status == 2&&o.Order.Evaluate==0).
-                 OrderBy(o => o.Order.OrderTime).ToList();
-
-            return PartialView("_NoEvaluate", rentOrders);
+            return PartialView("_OrderList", rentOrders);
         }
         public ActionResult Delete(int? recordID)
         {
@@ -272,7 +258,31 @@ namespace CarsRent.Controllers
             }
 
         }
-
+        public ActionResult EditEvaluate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var evaluate = db.Evaluates.SingleOrDefault(e => e.OrderDetailsId == id);
+            if (evaluate == null)
+            {
+                return HttpNotFound();
+            }
+            return View(evaluate);
+        }
+        [ValidateInput(false)]
+        public ActionResult AddEvaluate(int? EvaluateId,string evaluteContent)
+        {
+            if (EvaluateId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Evaluate evaluate = db.Evaluates.Find(EvaluateId);
+            evaluate.EvaluateContent = evaluteContent;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

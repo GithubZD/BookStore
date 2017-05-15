@@ -22,8 +22,6 @@
 
         [Required]
         public int CarId { get; set; }
-        //[Required]
-        //public int UserId { get; set; }
 
         [Required]
         [Column(TypeName = "date")]
@@ -56,6 +54,5 @@
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evaluate> Evaluates { get; set; }
-        //public virtual User User { get; set; }
     }
 }

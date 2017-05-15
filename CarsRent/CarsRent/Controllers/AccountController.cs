@@ -21,11 +21,6 @@ namespace NIIT.BookStore.Web.Controllers
     {
 
         private CarsRentDB _db = new CarsRentDB();
-        public AccountController()
-        {
-        }
-
-
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -47,6 +42,7 @@ namespace NIIT.BookStore.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
+            //SetResponseVerify();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -151,6 +147,20 @@ namespace NIIT.BookStore.Web.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
+        }
+
+        private void SetResponseVerify()
+        {
+            var res = Response.Cookies["__RequestVerificationToken"];
+            var req = Request.Cookies["__RequestVerificationToken"];
+            if (res == null || string.IsNullOrEmpty(res.Value))//set Response
+            {
+                if (req != null && !string.IsNullOrEmpty(req.Value))
+                {
+                    res = new HttpCookie("__RequestVerificationToken", req.Value);
+                    Response.SetCookie(res);
+                }
+            }
         }
 
         //

@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,19 +16,13 @@ namespace CarsRent.Controllers
         
         public ActionResult Index()
         {
-            //if (User.Identity.IsAuthenticated) {
-            //    var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
-            //    ViewBag.UserIcon = user.Icon;
-            //}
             CancelOrder();
             return View();
         }
         [AllowAnonymous]
         public void CancelOrder()
         {
-            DateTime nowDate = DateTime.Now;
-            var rent = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
- 
+            DateTime nowDate = DateTime.Now; 
             var rentOrders = db.OrderDetails.Where(o => o.Order.PayYesNo == 1).ToList();
             foreach (var item in rentOrders)
             {
@@ -42,6 +37,7 @@ namespace CarsRent.Controllers
                 int days = (d4 - d3).Days;
                 if (days < 0)
                 {
+                    item.Order.PayYesNo =2;
                     item.Order.Remark = "订单逾期";
                 }
                 db.SaveChanges();
@@ -57,8 +53,6 @@ namespace CarsRent.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
         public ActionResult ErrorMessage()

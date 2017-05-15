@@ -35,30 +35,43 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in Model)
-            {
-                        <tr id="record_@item.CarId">
-                            <td>
-                                <img src="@item.ImageUrl" alt="270*170" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CarName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PlateNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RentPrice)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Number)
-                            </td>
-                            <td>
-                                @Html.ActionLink("编辑", "Edit", new { id = item.CarId }) |
-                                @Html.ActionLink("详细资料", "Details", new { id = item.CarId })
-                            </td>
-                        </tr>
+
+                    @if (Model != null && Model.Count() > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr id="record_@item.CarId">
+                                <td>
+                                    <img src="@item.ImageUrl" alt="270*170" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CarName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PlateNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RentPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Number)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("编辑", "Edit", new { id = item.CarId }) |
+                                    @Html.ActionLink("详细资料", "Details", new { id = item.CarId })
+                                </td>
+                            </tr>
+                        }
                     }
+                    else
+                    {
+                    <tr>
+                        <td colspan="6">
+                            <h4>暂无数据……</h4>
+                        </td>
+                    </tr>
+                    }
+
                 </tbody>
 
 

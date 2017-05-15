@@ -52,7 +52,7 @@
                 <li>
                     <form class="navbar-form navbar-left" role="search" style="float:right">
                         <div class="form-group">
-                            <input type="text" id="car-name" class="form-control" placeholder="请在此处输入车名">
+                            <input type="text" id="car-name" class="form-control" placeholder="请在此处输入车名" onfocus = "this.placeholder = ''" onblur = "this.placeholder = '请在此处输入车名'">
                         </div>
                         <a id="btn-search" class="btn btn-default" ><span class="glyphicon glyphicon-search"></span></a>
                     </form>
@@ -120,9 +120,6 @@
                 })
             })
         })
-        //$(document).on("click", "#btn-check", function () {
-        //    var brandId = $("#Brand_list").find("option:selected").text();
-        //    alert(brandId);
-        //})
+
     </script>
 }

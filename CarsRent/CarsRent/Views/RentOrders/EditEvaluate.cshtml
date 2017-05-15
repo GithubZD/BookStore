@@ -1,0 +1,53 @@
+﻿@model CarsRent.Models.Evaluate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2><br /></h2>
+
+<div style="margin-left:50px">
+    <table>
+        <tr>
+            <td>
+                <div style="float:left;margin:10px">
+                    <a href="/Cars/Details/@Model.CarId" style="margin:3px;">
+                        <img height="250" width="400" src="@Model.Car.ImageUrl" alt="270*170" />
+                    </a>
+                </div>
+            </td>
+            <td valign="middle">
+                <div style="float:left;min-width:300px">
+                    <h3>@Html.DisplayFor(model => model.Car.CarName)</h3>
+                    <br />
+                    <h3 style="margin:3px;">￥<span style="color:red">@Html.DisplayFor(model => model.Car.RentPrice)/1天</span></h3>
+                    <br />
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+<div>
+    @using (Html.BeginForm("AddEvaluate", "RentOrders", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+    {
+        <input name="EvaluateId" type="hidden" value="@Model.EvaluateId" />
+        <h3>你还没有发表评论！</h3>
+        <textarea name="evaluteContent" id="ta_Evaluate"></textarea>
+        <button class="btn btn-block" id="btn_Evaluate">提交评价</button>}
+</div>
+<div>
+    <br />
+</div>
+<div>
+    @{ Html.RenderAction("UserEvaluate", "Cars", new { id = Model.CarId });}
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/ckeditor/ckeditor.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace("evaluteContent");
+</script>
+}

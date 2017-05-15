@@ -1,7 +1,8 @@
 ﻿
 
-$(document).delegate("#payOrder", "click", function () {
+$(document).delegate(".payOrder", "click", function () {
     var orderID = $(this).attr("data-id");
+    var Pay = $("li.active").find("a").attr("data-pay");
     bootbox.dialog({
         size: "small",
         message: "你确定要付款?",
@@ -15,13 +16,10 @@ $(document).delegate("#payOrder", "click", function () {
                     { orderID: orderID },
                     function (data) {
                     if (data.Status == 1) {
-                        window.location.reload();
                         alert("付款成功");
+                        IsPay(Pay);
                     }
-                    else if (data.Status == 2) {
-                        alert("Sorry!你选择的车辆数量不够，请重新选择其他车辆！");
-                    }
-                    else {
+                    else{
                         location.href = "/Home/ErrorMessage";
                     }
                     });
@@ -38,7 +36,7 @@ $(document).delegate("#payOrder", "click", function () {
     });
 })
 
-$(document).on("click", ".delete", function () {
+$(document).delegate(".delete", "click", function () {
         var recordID = $(this).attr("data-id");
         bootbox.dialog({
             size: "small",
@@ -54,8 +52,8 @@ $(document).on("click", ".delete", function () {
                         { recordID: recordID },
                         function (data) {
                             if (data.Status == 1) {
-                                window.location.reload();
-                                alert("删除成功！");
+                                //window.location.reload();
+                                $(".record_" + recordID).fadeOut();
                             }
                             else {
                                 alert("操作发生异常,删除失败！");
@@ -121,7 +119,6 @@ $(document).on("click", "#deleteAll", function () {
             $.getJSON(url, function (data) {
                 if (data) {
                     window.location.reload();
-                    alert("删除成功！");
                 }
                 else {
                     alert("操作发生异常,删除失败！");
@@ -151,3 +148,79 @@ $(document).on("click", "#checkAll", function () {
         });
     }
 })
+
+$(document).ready(function () {
+    $("#allOrder").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/RentOrders/AllOrder",
+            datatype: "json",
+            success: function (date) {
+                $("#orderList").html(date);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        })
+    })
+    $(".checkByPay").click(function () {
+        var PayYesNo = $(this).attr("data-pay");
+        $.ajax({
+            type: "POST",
+            url: "/RentOrders/checkOrderByPay",
+            data: { Pay: PayYesNo },
+            datatype: "json",
+            success: function (date) {
+                $("#orderList").html(date);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        })
+    })
+    $(".checkByStatus").click(function () {
+        var carStatus = $(this).attr("date-status");
+        $.ajax({
+            type: "POST",
+            url: "/RentOrders/checkOrderByStatus",
+            data: { CarStatus: carStatus },
+            datatype: "json",
+            success: function (date) {
+                $("#orderList").html(date);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        })
+    })
+    $(".checkByEvaluate").click(function () {
+        var noEvaluate = $(this).attr("date-evaluate");
+        $.ajax({
+            type: "POST",
+            url: "/RentOrders/checkOrderByStatus",
+            data: { noEvaluate: noEvaluate },
+            datatype: "json",
+            success: function (date) {
+                $("#orderList").html(date);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        })
+    })
+})
+
+function IsPay(Pay) {
+    $.ajax({
+        type: "POST",
+        url: "/RentOrders/checkOrderByPay",
+        data: { Pay: Pay },
+        datatype: "json",
+        success: function (date) {
+            $("#orderList").html(date);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    })
+}

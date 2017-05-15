@@ -1,18 +1,18 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 /* Reset */
 html{ -webkit-tap-highlight-color:rgba(0,0,0,0);}
 body{ font-family:'Nanum Gothic',/*'Nanum Gothic','Malgun Gothic','맑은 고딕','돋움','dotum',*/'AppleGothic','sans-serif'; font-size:14px; font-weight:400; color:#555555; line-height:1.5;}
 a{ color:#555555; text-decoration:none;}
 *,*:before,*:after{ -webkit-box-sizing:border-box; box-sizing:border-box; margin:0; padding:0; -webkit-text-size-adjust:none;}
-h1,h2,h3,h4,h5,h6,input,select,textarea,button{ font-size:inherit;}
+input,select,textarea,button{ font-size:inherit;}
 input,select,textarea,button{ font-family:inherit; vertical-align:middle;}
 img,form,iframe,fieldset,table,table th,table td{ border:0 none;}
 a,input,select,textarea,button{ outline:none;}
 img{ max-width:100%; vertical-align:middle; -ms-interpolation-mode:bicubic;}
 ul,ol{ list-style:none;}
 i,em,address{ font-style:normal;}
-h1,h2,h3,h4,h5,h6,th,strong,b{ font-weight:700;}
+th,strong,b{ font-weight:700;}
 iframe{ display:block;}
 sub,sup{ position:relative; vertical-align:baseline; font-size:75%; line-height:0;}
 sub{ bottom:-5px;}

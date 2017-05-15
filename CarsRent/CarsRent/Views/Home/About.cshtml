@@ -1,95 +1,38 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<div class="wrapper">
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li>
-                       <h3>Admin</h3>
-                    </li>
-                    <li>
-                        <a href="#" id="btn"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" id="menu_list">
-                            <li>
-                                <a href="#">Flot Charts</a>
-                            </li>
-                            <li>
-                                <a href="#">Morris.js Charts</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-table fa-fw"></i> Tables</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-edit fa-fw"></i> Forms</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="panels-wells.html">Panels and Wells</a>
-                            </li>
-                            <li>
-                                <a href="buttons.html">Buttons</a>
-                            </li>
-                            <li>
-                                <a href="notifications.html">Notifications</a>
-                            </li>
-                            <li>
-                                <a href="typography.html">Typography</a>
-                            </li>
-                            <li>
-                                <a href="icons.html"> Icons</a>
-                            </li>
-                            <li>
-                                <a href="grid.html">Grid</a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
-    <div id="page-wrapper">
+﻿
+<div class="row" style="margin-top:15px">
+    <h2 style="text-align:center">租车规则</h2>
+    <br />
+    <h4>
+        <span>1、</span>租车人来提车时必须携带有效身份证或相关可证明身份分的证件。
+    </h4>
+    <h4>
+        <span>2、</span>驾驶人必须出示驾驶证。
+    </h4>
+    <h4>
+        <span>3、</span>车辆使用期间，我们公司将收一部分押金，押金将按租金的百分之二十收取。
+    </h4>
+    <h4>
+        <span>4、</span>如果租车人没有在网上付款，我们将不保证一定给您预留车辆，给您带来的不便我们表示抱歉。
+    </h4>
+    <h4>
+        <span>5、</span>已经在网上付款的订单，我们将为你保留车辆，并且你可以免费提前四天取消订单。
+    </h4>
+    <h4>
+        <span>6、</span>已经在网上付款的订单，提前三天以内取消订单，我们将按以下方法扣一部分钱：
+    </h4>
+    <div style="color:blue">
+        <h5>
+            （1）提前三天取消订单:将扣除租金的百分之五;
+        </h5>
+        <h5>
+            （2）提前两天取消订单:将扣除租金的百分之十;
+        </h5>
+        <h5>
+            （3）提前一天取消订单:将扣除租金的百分之十五;
+        </h5>
+        <h5>
+            （4）用车当天取消订单:将扣除租金的百分之五十;
+        </h5>
     </div>
-    <!-- /#page-wrapper -->
+
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-<link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-<link href="~/Content/dist/css/sb-admin-2.min.css" rel="stylesheet" />
-@*<link href="~/Content/dist/css/metisMenu.min.css" rel="stylesheet" />*@
-<script src="~/Content/dist/js/sb-admin-2.min.js"></script>
-<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-@*<script src="~/Content/dist/js/metisMenu.min.js"></script>*@
-<script type="text/javascript">
-    //$(document).on("click","#a_menu",function () {
-    //        $("#menu_list").slideToggle(400);
-    //});
-            $(document).on("click","#btn",function(){
-                $.ajax({
-                    type: "POST",
-                    url: "/ManagerCars/ListCar",
-                    datatype: "json",
-                    contentType:"application/json",
-                    success: function (date) {
-                        $("#page-wrapper").html(date);
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                })
-            });
-</script>
-}

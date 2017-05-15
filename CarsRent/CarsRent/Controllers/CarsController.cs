@@ -70,6 +70,12 @@ namespace CarsRent.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var user = db.Users.SingleOrDefault(u => u.LoginName == User.Identity.Name);
+            if (user.RealName == null || user.Iphone == null || user.CardNumber == null)
+            {
+                return RedirectToAction("EditUserInfo", "User",new {id=user.UserId,errorMessage="你的信息不全，请完善你的信息！" });
+            }
+
             Car car = db.Cars.Find(id);
             if (car == null)
             {

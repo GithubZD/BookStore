@@ -1,6 +1,7 @@
 ﻿@model CarsRent.Models.User
 
 
+<h3 style="color:red" id="errorMessage">@Request.Params["errorMessage"]</h3>
 @using (Html.BeginForm("EditUserInfo", "User", FormMethod.Post,
     new { enctype = "multipart/form-data" }))
 {

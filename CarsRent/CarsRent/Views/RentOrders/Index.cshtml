@@ -8,48 +8,13 @@
     <div class="header-a" style="margin-left:-20px">
         <header>
             <ul class="nav nav-pills" style="background-color:lightgrey">
-                <li class="active" id="nav_name">@Ajax.ActionLink("全部订单", "AllOrder", new AjaxOptions
-                            {
-                                UpdateTargetId = "orderList",
-                                HttpMethod = "GET",
-                                InsertionMode = InsertionMode.Replace
-                            })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("待付款", "NoPayIndex", new AjaxOptions
-                        {
-                            UpdateTargetId = "orderList",
-                            HttpMethod = "GET",
-                            InsertionMode = InsertionMode.Replace
-                        })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("待处理", "IsPayIndex", new AjaxOptions
-                       {
-                           UpdateTargetId = "orderList",
-                           HttpMethod = "GET",
-                           InsertionMode = InsertionMode.Replace
-                       })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("正在使用", "DealIndex", new AjaxOptions
-                                             {
-                                                 UpdateTargetId = "orderList",
-                                                 HttpMethod = "GET",
-                                                 InsertionMode = InsertionMode.Replace
-                                             })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("已完成", "Complete", new AjaxOptions
-                                             {
-                                                 UpdateTargetId = "orderList",
-                                                 HttpMethod = "GET",
-                                                 InsertionMode = InsertionMode.Replace
-                                             })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("已取消", "IsCancleIndex", new AjaxOptions
-                        {
-                            UpdateTargetId = "orderList",
-                            HttpMethod = "GET",
-                            InsertionMode = InsertionMode.Replace
-                        })</li>&nbsp;
-                <li id="nav_name">@Ajax.ActionLink("待评价", "NoEvaluate", new AjaxOptions
-                       {
-                           UpdateTargetId = "orderList",
-                           HttpMethod = "GET",
-                           InsertionMode = InsertionMode.Replace
-                       })</li>
+                <li class="active"><a id="allOrder">全部订单</a></li>&nbsp;
+                <li><a class="checkByPay" data-pay="0">待付款</a></li>&nbsp;
+                <li><a class="checkByPay" data-pay="1">已付款</a></li>&nbsp;
+                <li><a class="checkByStatus" date-status="1">正在用车</a></li>&nbsp;
+                <li><a class="checkByStatus" date-status="2">已完成</a></li>&nbsp;
+                <li><a class="checkByPay" data-pay="2">已取消</a></li>&nbsp;
+                <li><a class="checkByEvaluate" date-evaluate="0">待评价</a></li>
             </ul>
         </header>
 
@@ -58,175 +23,29 @@
         <br />
     </div>
     <div class="row" id="orderList">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>
-                    </th>
-                    <th>
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Car.CarName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.AwayTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Days)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Deposit)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Money)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Number)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Order.PayYesNo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Order.Status)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-@if (Model != null && Model.Count() > 0)
-{
-    foreach (var item in Model)
-    {
-                    <tr id="record_@item.OrderDetailsId">
-                        <td></td>
-                        <td colspan="9" valign="bottom">
-                            <span>@item.Order.OrderTime.ToShortDateString().ToString()</span>
-                        </td>
-                        <td>
-                            <a class="delete" data-id="@item.Order.OrderId" style="height:0px" data-toggle="tooltip" data-placement="top" title="删除订单">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr id="record_@item.OrderDetailsId">
-                        <td>
-                            <input class="check-box" type="checkbox" name="selectFlag" value="@item.OrderDetailsId" />
-                        </td>
-                        <td>
-                            <a href="~/Cars/Details/@item.CarId"><img src="@item.Car.ImageUrl" /></a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Car.CarName)
-                        </td>
-                        <td>
-                            <p>@item.AwayTime.ToShortDateString().ToString()</p>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Days)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Deposit)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Money)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Number)
-                        </td>
-                        @if (item.Order.PayYesNo == 0)
-                        {
-                            <td>
-                                <input id="payOrder" type="submit" class="btn btn-primary" value="去付款" data-id="@item.Order.OrderId" />
-                            </td>
-                        }
-                        else if (item.Order.PayYesNo == 1)
-                        {
-                            <td>
-                                <label>已付款</label>
-                                <div><br /></div>
-                                @if (item.Order.Status == 0)
-                                {
-                                    <div><a class="cancel" data-id="@item.OrderDetailsId">取消订单</a></div>
-                                }
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <span style="color:red">订单已经取消</span>
-                            </td>
-                        }
-                        @if (item.Order.Status == 0)
-                        {
-                            <td>
-                                <span>未取车</span>
-                            </td>
-                        }
-                        else if (item.Order.Status == 1)
-                        {
-                            <td>
-                                <span>正在使用</span>
-                            </td>
-                        }
-                        else if (item.Order.Status == 2)
-                        {
-                            <td>
-                                <span>已还车</span>
-                            </td>
-                        }
-                    </tr>
-
-    }
-}
-else
-{
-    <tr><td colspan="10"> <h3>你还没有下过订单。</h3></td></tr>
-}
-                <tr>
-                    <td valign="middle">
-                        <input class="check-box" name="checkAll" id="checkAll" type="checkbox" value="true" /><label>全选</label>
-                    </td>
-                    <td valign="middle" style="text-align:left " colspan="9">
-                        <button class="btn btn-default" id="deleteAll">全部删除</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        @{Html.RenderAction("AllOrder","RentOrders");}
     </div>
 </div>
 
-
+<style>
+    .col_name{
+        text-align:center;
+    }
+</style>
 @section Scripts {
 @Scripts.Render("~/bundles/jqueryval")
 <link rel="stylesheet" href="~/Content/MyStyle.css" />
 <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" />
 <script src="~/Scripts/bootbox.js" type="text/javascript"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-<script id="reloadJs" src="~/Scripts/dealOrder.js"></script>
+<script src="~/Scripts/dealOrder.js" type="text/javascript"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
-        //$('ul.nav > li').click(function () {
-        //    $('ul.nav > li').removeClass('active');
-        //    $(this).addClass('active');
-        //});
         $('ul.nav').delegate("li", "click", function () {
             $("li").removeClass('active');
             $(this).addClass('active');
         });
-    });
-
-
-    $(document).on("click", "#nav_name", function () {
-        $.ajax({
-
-            type: "GET",
-
-            url: "~/Scripts/dealOrder.js",
-
-            dataType: "script"
-
-        });
-
     });
 
 
