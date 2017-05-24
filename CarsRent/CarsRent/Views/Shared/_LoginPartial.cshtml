@@ -6,7 +6,15 @@
     @Html.AntiForgeryToken()
             <div id="cssmenu">
                 <ul>
-                    <li><a href="/User/Index">@{Html.RenderAction("GetUserIcon", "User");}</a></li>
+                    @try
+                    {
+                                            <li><a href="/User/Index">@{Html.RenderAction("GetUserIcon", "User");}</a></li>
+                    }
+                    catch (Exception e)
+                    {
+
+                        throw e;
+                    }
                     <li>
                         @Html.ActionLink("你好，" + User.Identity.GetUserName() + "!", "Index", "User", routeValues: null, htmlAttributes: new { title = "Manage" })
                     </li>

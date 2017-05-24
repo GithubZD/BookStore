@@ -33,7 +33,7 @@
         [Display(Name = "密码")]
         public string Password { get; set; }
 
-        [StringLength(18, ErrorMessage = "身份证号位数不对")]
+        [RegularExpression(@"^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$", ErrorMessage = "身份证号位数不对")]
         [Display(Name = "身份证号")]
         public string CardNumber { get; set; }
 

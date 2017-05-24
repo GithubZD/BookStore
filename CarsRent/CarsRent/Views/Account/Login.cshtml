@@ -5,24 +5,25 @@
 }
 <div class="page-container">
             <h1>Login</h1>
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    <section id="loginForm">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                        <div class="col-md-12">
-                            @Html.TextBoxFor(m => m.AccountNumber, new { @placeholder = "登录名或电话号码", onfocus = "this.placeholder=''", onblur = "this.placeholder='登录名或电话号码'" })
-                            <br />
-                            @Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                <div class="form-group">
-                    <div class="col-md-12">
-                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", onfocus = "this.placeholder=''", onblur = "this.placeholder='Password'" })
-                        <br />
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                     </div>
-                    </div>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => m.AccountNumber, new { @placeholder = "登录名或电话号码", onfocus = "this.placeholder=''", onblur = "this.placeholder='登录名或电话号码'" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", onfocus = "this.placeholder=''", onblur = "this.placeholder='Password'" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <div class="checkbox">
@@ -36,7 +37,8 @@
                             <input type="submit" value="登录" class="btn btn-default" />
                         </div>
                     </div>
-            }
+        }
+    </section>
 </div>
 <ul id="supersized" class="speed" style="visibility: visible"></ul>
 <style>

@@ -26,10 +26,6 @@ namespace NIIT.BookStore.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            }
             if (!string.IsNullOrEmpty(returnUrl))
             {
 
@@ -46,7 +42,6 @@ namespace NIIT.BookStore.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel model, string returnUrl)
         {
-            //SetResponseVerify();
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -153,22 +148,6 @@ namespace NIIT.BookStore.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //private void SetResponseVerify()
-        //{
-        //    var res = Response.Cookies["__RequestVerificationToken"];
-        //    var req = Request.Cookies["__RequestVerificationToken"];
-        //    if (res == null || string.IsNullOrEmpty(res.Value))//set Response
-        //    {
-        //        if (req != null && !string.IsNullOrEmpty(req.Value))
-        //        {
-        //            res = new HttpCookie("__RequestVerificationToken", req.Value);
-        //            Response.SetCookie(res);
-        //        }
-        //    }
-        //}
-
-        //
-        // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
